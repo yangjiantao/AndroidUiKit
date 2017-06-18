@@ -4,7 +4,7 @@
 ## ISwipeRefreshLayout
  参考官方SwipeRefreshLayout源码实现。支持自定义RefreshView。
 
-### 经典效果
+### 经典下拉刷新效果
 ![refresh-01](/art/refreshview/20170618-212852-refresh.gif)
 
 ### 参考资料

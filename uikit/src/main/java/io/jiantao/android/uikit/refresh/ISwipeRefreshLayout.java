@@ -51,7 +51,8 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
         NestedScrollingChild {
 
     @VisibleForTesting
-    static final int DEFAULT_HEADER_HEIGHT = 40;
+    private static final int DEFAULT_HEADER_HEIGHT = 40;
+    private final int HEADER_VIEW_MIN_HEIGHT;
 
     private static final String LOG_TAG = ISwipeRefreshLayout.class.getSimpleName();
 
@@ -213,7 +214,7 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
 
         final DisplayMetrics metrics = getResources().getDisplayMetrics();
         mHeaderViewHeight = (int) (DEFAULT_HEADER_HEIGHT * metrics.density);
-
+        HEADER_VIEW_MIN_HEIGHT = mHeaderViewHeight;
         ViewCompat.setChildrenDrawingOrderEnabled(this, true);
         mTotalDragDistance = (int) (DEFAULT_HEADER_TARGET * metrics.density);
         mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
@@ -224,6 +225,9 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
         final TypedArray a = context.obtainStyledAttributes(attrs, LAYOUT_ATTRS);
         setEnabled(a.getBoolean(0, true));
         a.recycle();
+
+        //add default refreshview
+        setRefreshHeaderView(new ClassicIRefreshHeaderView(getContext()));
     }
 
     @Override
@@ -245,8 +249,13 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
     /**
      * @param view
      */
-    public void setRefreshView(View view) {
+    public void setRefreshHeaderView(View view) {
+        if(view == null){
+            return;
+        }
+        removeView(mRefreshView);
         this.mRefreshView = view;
+        view.setMinimumHeight(HEADER_VIEW_MIN_HEIGHT);
         addView(view);
         getRefreshTrigger().reset();
     }

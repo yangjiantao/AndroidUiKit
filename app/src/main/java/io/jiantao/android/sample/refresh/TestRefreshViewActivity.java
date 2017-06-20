@@ -35,7 +35,7 @@ public class TestRefreshViewActivity extends Activity {
             }
         });
 
-        refreshLayout.setRefreshView(new ClassicIRefreshHeaderView(this));
+//        refreshLayout.setRefreshHeaderView(new ClassicIRefreshHeaderView(this));
         handler.sendEmptyMessageDelayed(0, 3000);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);

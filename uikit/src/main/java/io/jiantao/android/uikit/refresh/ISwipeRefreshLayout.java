@@ -285,14 +285,14 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
             //移动到刷新位置
             animateOffsetToCorrectPosition(mRefreshListener);
             mNotify = false;
-            startScaleUpAnimation(mRefreshListener);
+            startScaleUpAnimation();
         } else {
             setRefreshing(refreshing, false /* notify */);
         }
     }
 
     @SuppressLint("NewApi")
-    private void startScaleUpAnimation(final Animation.AnimationListener listener) {
+    private void startScaleUpAnimation() {
         mRefreshView.setVisibility(View.VISIBLE);
 
         ValueAnimator animator = ValueAnimator.ofFloat(0.0f, 1.0f);
@@ -300,7 +300,7 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 setAnimationProgress(((float) animation.getAnimatedValue()));
-                listener.onAnimationEnd(null);
+//                listener.onAnimationEnd(null);
             }
         });
         animator.setDuration(mMediumAnimationDuration);
@@ -403,7 +403,8 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
         final int childHeight = height - getPaddingTop() - getPaddingBottom();
         child.layout(childLeft, childTop, childLeft + childWidth, childTop + childHeight);
         if(mRefreshView != null){
-            mRefreshView.layout(childLeft, childTop - mHeaderViewHeight, childLeft + childWidth, childTop);
+            int refreshWidth = mRefreshView.getMeasuredWidth();
+            mRefreshView.layout((width/2 - refreshWidth/2), childTop - mHeaderViewHeight, (width/2 + refreshWidth/2), childTop);
         }
     }
 

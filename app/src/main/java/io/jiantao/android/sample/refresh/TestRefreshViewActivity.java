@@ -35,7 +35,7 @@ public class TestRefreshViewActivity extends Activity {
             }
         });
 
-//        refreshLayout.setRefreshHeaderView(new ClassicIRefreshHeaderView(this));
+//        refreshLayout.setRefreshHeaderView(new MedlinkerRefreshHeaderView(this).setResFolder("mipmap").setResStartName("loading_000"));
         handler.sendEmptyMessageDelayed(0, 3000);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);

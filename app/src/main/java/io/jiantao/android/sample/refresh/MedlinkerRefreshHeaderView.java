@@ -19,6 +19,7 @@ import io.jiantao.android.uikit.refresh.IRefreshTrigger;
 
 /**
  * 医联下拉刷新效果
+ * FIXME 执行帧动画，有空白情况出现。
  * Created by jiantao on 2017/6/20.
  */
 

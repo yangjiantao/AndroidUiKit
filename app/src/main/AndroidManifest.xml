@@ -27,6 +27,17 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".tablayout.SlidingTabActivity"
+            android:label="tablayout/SlidingTabActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="io.jiantao.android.sample.cagegory" />
+            </intent-filter>
+        </activity>
+
+
+
+
         <!--<activity android:name=".refresh.TestRefreshViewActivity"/>-->
     </application>
 

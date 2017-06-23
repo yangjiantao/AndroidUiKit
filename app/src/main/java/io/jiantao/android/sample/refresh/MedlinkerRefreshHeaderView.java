@@ -1,6 +1,5 @@
 package io.jiantao.android.sample.refresh;
 
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.Keep;
@@ -19,7 +18,7 @@ import io.jiantao.android.uikit.refresh.IRefreshTrigger;
 
 /**
  * 医联下拉刷新效果
- * FIXME 执行帧动画，有空白情况出现。
+ * 执行帧动画，动画周期间隙，有空白情况出现。解决方案：固定LoadingView的宽高。
  * Created by jiantao on 2017/6/20.
  */
 
@@ -34,7 +33,7 @@ public class MedlinkerRefreshHeaderView extends FrameLayout implements IRefreshT
     //资源文件的文件夹，mimmap,drawable
     private String resFolder = "drawable";
     //播放的频率
-    private int fps = 24;
+    private final int fps = 20;
 
     private final int size;
 
@@ -50,7 +49,7 @@ public class MedlinkerRefreshHeaderView extends FrameLayout implements IRefreshT
 
     public MedlinkerRefreshHeaderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        size = 49;
+        size = 30;
         setupViews();
     }
 
@@ -71,11 +70,6 @@ public class MedlinkerRefreshHeaderView extends FrameLayout implements IRefreshT
 
     public MedlinkerRefreshHeaderView setResFolder(String resFolder) {
         this.resFolder = resFolder;
-        return this;
-    }
-
-    public MedlinkerRefreshHeaderView setFps(int fps) {
-        this.fps = fps;
         return this;
     }
 
@@ -100,7 +94,7 @@ public class MedlinkerRefreshHeaderView extends FrameLayout implements IRefreshT
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                setResIndex(((Integer) animation.getAnimatedValue()));
+                setResIndex(((Integer) animation.getAnimatedValue()) + 5);
             }
         });
         return animator;
@@ -117,8 +111,8 @@ public class MedlinkerRefreshHeaderView extends FrameLayout implements IRefreshT
     }
     @Override
     public void onPullDownState(float progress) {
-        //查看素材 02 - 35 正好是一个完整动画
-        setResIndex(Math.round(progress * 34) + 2);
+        //查看素材 05 - 35 正好是一个完整动画
+        setResIndex(Math.round(progress * size) + 5);
         refreshState.setText("下拉刷新");
     }
 

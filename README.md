@@ -7,6 +7,10 @@
 ### 经典下拉刷新效果
 ![refresh-01](/art/refreshview/20170618-212852-refresh.gif)
 
+## IDividerItemDecoration 
+  RecyclerView分割线，支持自定义height、color、padding。
+  
+
 ### 参考资料
 - [IRecyclerView](https://github.com/Aspsine/IRecyclerView)
 - http://blog.csdn.net/lmj623565791/article/details/24252901

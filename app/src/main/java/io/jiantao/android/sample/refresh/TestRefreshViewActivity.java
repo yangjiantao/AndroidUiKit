@@ -1,6 +1,7 @@
 package io.jiantao.android.sample.refresh;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import io.jiantao.android.sample.R;
 import io.jiantao.android.uikit.refresh.ClassicIRefreshHeaderView;
 import io.jiantao.android.uikit.refresh.ISwipeRefreshLayout;
+import io.jiantao.android.uikit.widget.IDividerItemDecoration;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
@@ -39,6 +41,11 @@ public class TestRefreshViewActivity extends Activity {
         handler.sendEmptyMessageDelayed(0, 3000);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDividerItemDecoration.VERTICAL);
+        divierDecoration.setVerticalDividerHeight(3);
+        divierDecoration.setDividerColor(Color.BLUE);
+        divierDecoration.setDividerPadding(30);
+        recyclerView.addItemDecoration(divierDecoration);
 //        recyclerView.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

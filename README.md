@@ -32,13 +32,11 @@ IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDivi
 
 - [FlycoTabLayout](https://github.com/H07000223/FlycoTabLayout)
 
- ![FlycoTabLayout](https://github.com/H07000223/FlycoTabLayout/blob/master/preview_1.gif)
-
 - [MagicIndicator](https://github.com/hackware1993/MagicIndicator)
 
- ![MagicIndicator](https://github.com/hackware1993/MagicIndicator/blob/master/magicindicator.gif)
-
 本项目在**FlycoTabLayout**基础上进行修改和裁剪而来。
+
+![tablayout](/art/tablayout/QQ20170625-213831-tablayout.gif)
 
 
 ## Thanks

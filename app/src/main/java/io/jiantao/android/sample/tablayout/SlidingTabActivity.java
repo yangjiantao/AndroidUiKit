@@ -12,11 +12,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.jiantao.android.sample.R;
 import io.jiantao.android.sample.common.SimpleCardFragment;
+import io.jiantao.android.uikit.tablayout.CommonTabAdapter;
+import io.jiantao.android.uikit.tablayout.CommonTabLayout;
 import io.jiantao.android.uikit.tablayout.MsgView;
 import io.jiantao.android.uikit.tablayout.OnTabSelectListener;
 import io.jiantao.android.uikit.tablayout.SlidingTabLayout;
@@ -43,8 +46,8 @@ public class SlidingTabActivity extends AppCompatActivity implements OnTabSelect
     SlidingTabLayout tabLayout_8;
     @BindView(R.id.tl_9)
     SlidingTabLayout tabLayout_9;
-    @BindView(R.id.tl_10)
-    SlidingTabLayout tabLayout_10;
+    @BindView(R.id.ctl_10)
+    CommonTabLayout commonTabLayout;
     @BindView(R.id.vp)
     ViewPager vp;
     private Context mContext = this;
@@ -70,27 +73,6 @@ public class SlidingTabActivity extends AppCompatActivity implements OnTabSelect
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
         vp.setAdapter(mAdapter);
 
-//        /** 默认 */
-//        SlidingTabLayout tabLayout_1 = ViewFindUtils.find(decorView, R.id.tl_1);
-//        /**自定义部分属性*/
-//        SlidingTabLayout tabLayout_2 = ViewFindUtils.find(decorView, R.id.tl_2);
-//        /** 字体加粗,大写 */
-//        SlidingTabLayout tabLayout_3 = ViewFindUtils.find(decorView, R.id.tl_3);
-//        /** tab固定宽度 */
-//        SlidingTabLayout tabLayout_4 = ViewFindUtils.find(decorView, R.id.tl_4);
-//        /** indicator固定宽度 */
-//        SlidingTabLayout tabLayout_5 = ViewFindUtils.find(decorView, R.id.tl_5);
-//        /** indicator圆 */
-//        SlidingTabLayout tabLayout_6 = ViewFindUtils.find(decorView, R.id.tl_6);
-//        /** indicator矩形圆角 */
-//        final SlidingTabLayout tabLayout_7 = ViewFindUtils.find(decorView, R.id.tl_7);
-//        /** indicator三角形 */
-//        SlidingTabLayout tabLayout_8 = ViewFindUtils.find(decorView, R.id.tl_8);
-//        /** indicator圆角色块 */
-//        SlidingTabLayout tabLayout_9 = ViewFindUtils.find(decorView, R.id.tl_9);
-//        /** indicator圆角色块 */
-//        SlidingTabLayout tabLayout_10 = ViewFindUtils.find(decorView, R.id.tl_10);
-
         tabLayout_1.setViewPager(vp);
         tabLayout_2.setViewPager(vp);
         tabLayout_2.setOnTabSelectListener(this);
@@ -101,7 +83,6 @@ public class SlidingTabActivity extends AppCompatActivity implements OnTabSelect
         tabLayout_7.setViewPager(vp, mTitles);
         tabLayout_8.setViewPager(vp, mTitles, this, mFragments);
         tabLayout_9.setViewPager(vp);
-        tabLayout_10.setViewPager(vp);
 
         vp.setCurrentItem(4);
 
@@ -119,6 +100,64 @@ public class SlidingTabActivity extends AppCompatActivity implements OnTabSelect
         tabLayout_2.showMsg(5, 5);
         tabLayout_2.setMsgMargin(5, 0, 10);
 
+        initCommonTabLayout();
+    }
+
+    private int[] mIconUnselectIds = {
+            R.mipmap.tab_home_unselect, R.mipmap.tab_speech_unselect,
+            R.mipmap.tab_contact_unselect, R.mipmap.tab_more_unselect};
+    private int[] mIconSelectIds = {
+            R.mipmap.tab_home_select, R.mipmap.tab_speech_select,
+            R.mipmap.tab_contact_select, R.mipmap.tab_more_select};
+
+    private void initCommonTabLayout() {
+        List<CommonTabAdapter> tabEntitys = new ArrayList<>(mIconUnselectIds.length);
+        for(int i=0;i<mIconUnselectIds.length;i++){
+            TabEntity entity = new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]);
+            tabEntitys.add(entity);
+        }
+        commonTabLayout.setTabData(tabEntitys);
+        commonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                System.out.println(" onTabSelect position "+ position);
+                vp.setCurrentItem(position);
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+                System.out.println(" onTabReselect position "+ position);
+            }
+        });
+
+        //两位数
+        commonTabLayout.showMsg(0, 55);
+        commonTabLayout.setMsgMargin(0, -5, 5);
+
+        //三位数
+        commonTabLayout.showMsg(1, 100);
+        commonTabLayout.setMsgMargin(1, -5, 5);
+
+        //设置未读消息红点
+        commonTabLayout.showDot(2);
+
+        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                System.out.println(" onPageScrolled position "+ position);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                System.out.println(" onPageSelected position "+ position);
+                commonTabLayout.setCurrentTab(position >= mIconSelectIds.length ? mIconSelectIds.length - 1 : position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                System.out.println(" onPageScrollStateChanged state "+ state);
+            }
+        });
     }
 
     @Override

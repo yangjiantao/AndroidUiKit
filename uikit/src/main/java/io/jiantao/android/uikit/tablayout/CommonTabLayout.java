@@ -33,7 +33,7 @@ import io.jiantao.android.uikit.R;
 /** 没有继承HorizontalScrollView不能滑动,对于ViewPager无依赖 */
 public class CommonTabLayout extends FrameLayout implements ValueAnimator.AnimatorUpdateListener {
     private Context mContext;
-    private ArrayList<CommonTabAdapter> mTabEntitys = new ArrayList<>();
+    private ArrayList<CommonTabEntity> mTabEntitys = new ArrayList<>();
     private LinearLayout mTabsContainer;
     private int mCurrentTab;
     private int mLastTab;
@@ -184,7 +184,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         ta.recycle();
     }
 
-    public void setTabData(List<CommonTabAdapter> tabEntitys) {
+    public void setTabData(List<CommonTabEntity> tabEntitys) {
         if (tabEntitys == null || tabEntitys.size() == 0) {
             throw new IllegalStateException("TabEntitys can not be NULL or EMPTY !");
         }
@@ -273,7 +273,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             ImageView iv_tab_icon = (ImageView) tabView.findViewById(R.id.iv_tab_icon);
             if (mIconVisible) {
                 iv_tab_icon.setVisibility(View.VISIBLE);
-                CommonTabAdapter tabEntity = mTabEntitys.get(i);
+                CommonTabEntity tabEntity = mTabEntitys.get(i);
                 iv_tab_icon.setImageResource(i == mCurrentTab ? tabEntity.getTabSelectedIcon() : tabEntity.getTabUnselectedIcon());
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         mIconWidth <= 0 ? LinearLayout.LayoutParams.WRAP_CONTENT : (int) mIconWidth,
@@ -302,7 +302,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             TextView tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
             tab_title.setTextColor(isSelect ? mTextSelectColor : mTextUnselectColor);
             ImageView iv_tab_icon = (ImageView) tabView.findViewById(R.id.iv_tab_icon);
-            CommonTabAdapter tabEntity = mTabEntitys.get(i);
+            CommonTabEntity tabEntity = mTabEntitys.get(i);
             iv_tab_icon.setImageResource(isSelect ? tabEntity.getTabSelectedIcon() : tabEntity.getTabUnselectedIcon());
             if (mTextBold == TEXT_BOLD_WHEN_SELECT) {
                 tab_title.getPaint().setFakeBoldText(isSelect);

@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.jiantao.android.sample.R;
 import io.jiantao.android.sample.common.SimpleCardFragment;
-import io.jiantao.android.uikit.tablayout.CommonTabAdapter;
+import io.jiantao.android.uikit.tablayout.CommonTabEntity;
 import io.jiantao.android.uikit.tablayout.CommonTabLayout;
 import io.jiantao.android.uikit.tablayout.MsgView;
 import io.jiantao.android.uikit.tablayout.OnTabSelectListener;
@@ -111,7 +111,7 @@ public class SlidingTabActivity extends AppCompatActivity implements OnTabSelect
             R.mipmap.tab_contact_select, R.mipmap.tab_more_select};
 
     private void initCommonTabLayout() {
-        List<CommonTabAdapter> tabEntitys = new ArrayList<>(mIconUnselectIds.length);
+        List<CommonTabEntity> tabEntitys = new ArrayList<>(mIconUnselectIds.length);
         for(int i=0;i<mIconUnselectIds.length;i++){
             TabEntity entity = new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]);
             tabEntitys.add(entity);

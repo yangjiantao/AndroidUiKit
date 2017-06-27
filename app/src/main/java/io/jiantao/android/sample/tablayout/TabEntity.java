@@ -1,8 +1,8 @@
 package io.jiantao.android.sample.tablayout;
 
-import io.jiantao.android.uikit.tablayout.CommonTabAdapter;
+import io.jiantao.android.uikit.tablayout.CommonTabEntity;
 
-public class TabEntity implements CommonTabAdapter {
+public class TabEntity implements CommonTabEntity {
     public String title;
     public int selectedIcon;
     public int unSelectedIcon;

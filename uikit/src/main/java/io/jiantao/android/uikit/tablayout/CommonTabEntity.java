@@ -2,7 +2,7 @@ package io.jiantao.android.uikit.tablayout;
 
 import android.support.annotation.DrawableRes;
 
-public interface CommonTabAdapter {
+public interface CommonTabEntity {
     String getTabTitle();
 
     @DrawableRes

@@ -120,23 +120,24 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration{
             left = 0;
             right = parent.getWidth();
         }
-        if(mDividerPadding > 0){
+        if(mDividerPadding > 0){//设置了padding，调整left和right的值
             left = left + mDividerPadding;
             right = right - mDividerPadding;
         }
 
-        mDivider.setColor(mDividerColor);
+        mDivider.setColor(mDividerColor);//自定义color，没设置就用默认值
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
             parent.getDecoratedBoundsWithMargins(child, mBounds);
             int bottom = mBounds.bottom + Math.round(ViewCompat.getTranslationY(child));
             int top = bottom - mDivider.getIntrinsicHeight();
-            if(mVerticalDividerHeight > 0){
+            if(mVerticalDividerHeight > 0){//如果设置了高度，调整top的值
                 top = bottom - mVerticalDividerHeight;
             }
 
             mDivider.setBounds(left, top, right, bottom);
+            //mDivider.setCornerRadius();//设置矩形圆角
             mDivider.draw(canvas);
         }
         canvas.restore();

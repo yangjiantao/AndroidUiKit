@@ -152,7 +152,7 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
                 getRefreshTrigger().onRefreshing();
                 if (mNotify) {
                     if (mListener != null) {
-                        System.out.println(" onRefresh !!!");
+//                        System.out.println(" onRefresh !!!");
                         mListener.onRefresh();
                     }
                 }
@@ -275,7 +275,7 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
      * @param refreshing Whether or not the view should show refresh progress.
      */
     public void setRefreshing(boolean refreshing) {
-        System.out.println("setRefreshing refreshing "+refreshing);
+//        System.out.println("setRefreshing refreshing "+refreshing);
         if(mRefreshView == null || !isEnabled()){
             return;
         }
@@ -336,7 +336,7 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
             public void applyTransformation(float interpolatedTime, Transformation t) {
                 setAnimationProgress(1 - interpolatedTime);
                 translateContentViews((mTarget.getTranslationY() * (1 - interpolatedTime)));
-                System.out.println(" mScaleDownAnimation interpolatedTime = " + interpolatedTime);
+//                System.out.println(" mScaleDownAnimation interpolatedTime = " + interpolatedTime);
             }
         };
         mScaleDownAnimation.setDuration(SCALE_DOWN_DURATION);
@@ -474,8 +474,8 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
             mReturningToStart = false;
         }
 
-        System.out.println("isEnabled "+ isEnabled()+"; mReturningToStart "+mReturningToStart+"; canChildScrollUp() "+canChildScrollUp()+" " +
-                " mRefreshing "+mRefreshing+"; mNestedScrollInProgress "+mNestedScrollInProgress+" ; mRefreshView "+mRefreshView);
+//        System.out.println("isEnabled "+ isEnabled()+"; mReturningToStart "+mReturningToStart+"; canChildScrollUp() "+canChildScrollUp()+" " +
+//                " mRefreshing "+mRefreshing+"; mNestedScrollInProgress "+mNestedScrollInProgress+" ; mRefreshView "+mRefreshView);
         if (canNotPullToRefresh()) {
             // Fail fast if we're not in a state where a swipe is possible
             return false;
@@ -724,7 +724,7 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
     }
 
     private void finishSpinner(float overscrollTop) {
-        System.out.println(" finishSpinner overescrollTop " + overscrollTop + "; mTotalDragDistance = " + mTotalDragDistance);
+//        System.out.println(" finishSpinner overescrollTop " + overscrollTop + "; mTotalDragDistance = " + mTotalDragDistance);
         if (overscrollTop > mTotalDragDistance) {
             setRefreshing(true, true /* notify */);
         } else {
@@ -885,8 +885,8 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
         @Override
         public void applyTransformation(float interpolatedTime, Transformation t) {
             final float translationY = mRefreshView.getTranslationY() + (mHeaderViewHeight - mRefreshView.getTranslationY()) * interpolatedTime;
-            System.out.println(" mAnimateToCorrectPosition translationY "+translationY+" mRefreshView.getTranslationY() "+mRefreshView.getTranslationY()
-            +"; mHeaderViewHeight "+mHeaderViewHeight+" interpolatedTime "+interpolatedTime);
+//            System.out.println(" mAnimateToCorrectPosition translationY "+translationY+" mRefreshView.getTranslationY() "+mRefreshView.getTranslationY()
+//            +"; mHeaderViewHeight "+mHeaderViewHeight+" interpolatedTime "+interpolatedTime);
             translateContentViews(translationY);
         }
     };
@@ -932,8 +932,8 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
             final float maxValue = mRefreshView.getTranslationY() + mHeaderViewHeight;
             ViewCompat.setTranslationY(mTarget, transY > maxValue ? maxValue : transY);
         }
-        System.out.println(" translateTargetView getTransY "+mTarget.getTranslationY()+"; getY "+mTarget.getY()+"; mTarget.getTop "+mTarget.getTop()+" " +
-                "\n mRefreshView.getTop "+mRefreshView.getTop()+" mRefreshView.getTranslationY "+mRefreshView.getTranslationY());
+//        System.out.println(" translateTargetView getTransY "+mTarget.getTranslationY()+"; getY "+mTarget.getY()+"; mTarget.getTop "+mTarget.getTop()+" " +
+//                "\n mRefreshView.getTop "+mRefreshView.getTop()+" mRefreshView.getTranslationY "+mRefreshView.getTranslationY());
     }
 
     private void onSecondaryPointerUp(MotionEvent ev) {

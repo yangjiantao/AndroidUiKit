@@ -75,7 +75,7 @@ public class MedlinkerRefreshHeaderView extends FrameLayout implements IRefreshT
 
     @Keep
     public void setResIndex(int resIndex) {
-        System.out.println(" setResIndex resIndex "+resIndex);
+//        System.out.println(" setResIndex resIndex "+resIndex);
         this.resIndex = resIndex;
         if (TextUtils.isEmpty(resStartName)) {
             throw new RuntimeException("资源文件前缀名称不能为空");

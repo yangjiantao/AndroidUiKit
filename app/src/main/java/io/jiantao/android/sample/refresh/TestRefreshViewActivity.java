@@ -9,12 +9,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import java.util.List;
+import java.util.Random;
+
 import io.jiantao.android.sample.R;
-import io.jiantao.android.uikit.refresh.ClassicIRefreshHeaderView;
+import io.jiantao.android.uikit.adapter.LoadMoreDelegate;
+import io.jiantao.android.uikit.adapter.LoadMoreItem;
+import io.jiantao.android.uikit.adapter.MultiTypeLoadMoreAdapter;
+import io.jiantao.android.uikit.adapter.OnLoadMoreRetryListener;
 import io.jiantao.android.uikit.refresh.ISwipeRefreshLayout;
 import io.jiantao.android.uikit.widget.IDividerItemDecoration;
 import me.drakeet.multitype.Items;
-import me.drakeet.multitype.MultiTypeAdapter;
 
 /**
  * Created by jiantao on 2017/6/15.
@@ -23,6 +28,7 @@ import me.drakeet.multitype.MultiTypeAdapter;
 public class TestRefreshViewActivity extends Activity {
 
     ISwipeRefreshLayout refreshLayout;
+    MultiTypeLoadMoreAdapter adapter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +44,8 @@ public class TestRefreshViewActivity extends Activity {
         });
 
         refreshLayout.setRefreshHeaderView(new MedlinkerRefreshHeaderView(this).setResFolder("mipmap").setResStartName("loading_000"));
-        handler.sendEmptyMessageDelayed(0, 2000);
+//        handler.sendEmptyMessageDelayed(0, 2000);
+        refreshLayout.setEnabled(false);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDividerItemDecoration.VERTICAL);
@@ -49,22 +56,55 @@ public class TestRefreshViewActivity extends Activity {
 //        recyclerView.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        MultiTypeAdapter adapter = new MultiTypeAdapter();
+        adapter = new MultiTypeLoadMoreAdapter();
         adapter.register(TextItem.class, new TextItemViewBinder());
         recyclerView.setAdapter(adapter);
+
+        adapter.setLoadMoreItemRetryListener(new OnLoadMoreRetryListener() {
+            @Override
+            public void onRetry() {
+                isLoading = true;
+                handler.sendEmptyMessageDelayed(2, 5000);
+            }
+        });
+
+        adapter.setLoadMoreSubject(new LoadMoreDelegate.LoadMoreSubject() {
+            @Override
+            public boolean isLoading() {
+
+                return isLoading;
+            }
+
+            @Override
+            public void onLoadMore() {
+                System.out.println(" onloacmore called ");
+                isLoading = true;
+                handler.sendEmptyMessageDelayed(2, 3000);
+            }
+        });
 
         /* Mock the data */
 //        TextItem textItem = new TextItem("world");
 
-        Items items = new Items();
-        for (int i = 0; i < 50; i++) {
-            TextItem textItem = new TextItem("world no."+i);
-            items.add(textItem);
-        }
-        adapter.setItems(items);
+
+        adapter.setItems(createItems());
         adapter.notifyDataSetChanged();
 
     }
+
+    boolean isLoading;
+    int index = 1;
+    private List<?> createItems() {
+        Items items = new Items();
+        for (int i = index; i < index + 20; i++) {
+            TextItem textItem = new TextItem("world no."+i);
+            items.add(textItem);
+        }
+        index += items.size();
+        return items;
+    }
+
+    Random random = new Random();
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -77,6 +117,21 @@ public class TestRefreshViewActivity extends Activity {
 
                 case 1:// refreshing false
                     refreshLayout.setRefreshing(false);
+                    break;
+
+                case 2://加载完成
+                    boolean succeed = random.nextBoolean();
+                    if(succeed){
+                        adapter.appendItems(createItems());
+                    }else{
+                        adapter.setLoadMoreItemState(LoadMoreItem.STATE_FAILED);
+                    }
+
+                    if(index < 101){
+                        isLoading = false;
+                    }else{
+                        adapter.setLoadMoreItemState(LoadMoreItem.STATE_COMPLETED);
+                    }
                     break;
             }
             return false;

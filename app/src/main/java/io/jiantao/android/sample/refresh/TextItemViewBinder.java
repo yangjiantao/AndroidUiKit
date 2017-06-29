@@ -35,7 +35,7 @@ public class TextItemViewBinder extends ItemViewBinder<TextItem, TextItemViewBin
     @Override
     protected void onBindViewHolder(@NonNull TextHolder holder, @NonNull TextItem textItem) {
         holder.text.setText("hello: " + textItem.text);
-        Log.d("demo", "position: " + getPosition(holder));
-        Log.d("demo", "adapter: " + getAdapter());
+//        Log.d("demo", "position: " + getPosition(holder));
+//        Log.d("demo", "adapter: " + getAdapter());
     }
 }

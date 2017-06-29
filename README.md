@@ -39,6 +39,10 @@ IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDivi
 ![tablayout](/art/tablayout/QQ20170625-213831-tablayout.gif)
 
 
+## MultiTypeLoadMoreAdapter
+在[MultiType](https://github.com/drakeet/MultiType)库的基础上，实现的支持上拉加载更多的Adapter，加载效果简单，这里就不贴出来了。另外，MultiType是一个很优秀的库，完爆各类对Adapter的封装库，值得查阅源码。
+
+
 ## Thanks
 感谢所有开源项目作者。
 

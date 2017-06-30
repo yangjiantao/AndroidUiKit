@@ -36,6 +36,14 @@
         </activity>
 
 
+        <activity android:name=".common.SimpleFragmentActivity"
+            android:label="common/simpleFragmentActivity"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+
+        </activity>
 
 
         <!--<activity android:name=".refresh.TestRefreshViewActivity"/>-->

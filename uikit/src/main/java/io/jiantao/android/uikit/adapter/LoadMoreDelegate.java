@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 /**
  * FIXME 目前只支持 LinearLayoutManager。
- * 后期考虑：GridLayoutManager
+ * 后期考虑：GridLayoutManager、StaggeredGridLayoutManager
  * @author drakeet
  */
 public class LoadMoreDelegate {

@@ -36,7 +36,7 @@ public class TabPagerAdapter extends PagerAdapter {
     private int mLastPagePosition;
     private final ViewGroup mViewGroup;
     //是否保留页面状态
-    private boolean retainPagesState;
+    private boolean retainPagesState = true;
 
     public TabPagerAdapter(Context context, FragmentManager fm, SparseArray<Class<?>> fragments, ViewGroup viewGroup) {
         mFragmentManager = fm;

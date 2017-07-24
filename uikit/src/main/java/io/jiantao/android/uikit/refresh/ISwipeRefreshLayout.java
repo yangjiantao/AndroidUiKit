@@ -257,7 +257,7 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
         this.mRefreshView = view;
         view.setMinimumHeight(HEADER_VIEW_MIN_HEIGHT);
         addView(view);
-        getRefreshTrigger().reset();
+        getRefreshTrigger().init();
     }
 
     /**

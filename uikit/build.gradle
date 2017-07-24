@@ -32,4 +32,5 @@ dependencies {
     compile rootProject.ext.dependencies["multitype"]
     compile rootProject.ext.dependencies["design"]
     testCompile rootProject.ext.dependencies["junit"]
+
 }

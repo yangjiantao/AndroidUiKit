@@ -27,5 +27,5 @@ public interface IRefreshTrigger {
      */
     void onComplete();
 
-    void reset();
+    void init();
 }

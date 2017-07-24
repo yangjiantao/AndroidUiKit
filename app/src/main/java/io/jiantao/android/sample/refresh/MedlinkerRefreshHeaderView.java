@@ -22,7 +22,7 @@ import io.jiantao.android.uikit.refresh.IRefreshTrigger;
  * Created by jiantao on 2017/6/20.
  */
 
-public class MedlinkerRefreshHeaderView extends FrameLayout implements IRefreshTrigger{
+public class MedlinkerRefreshHeaderView extends FrameLayout implements IRefreshTrigger {
 
     private ImageView loadingView;
     private TextView refreshState;
@@ -33,7 +33,7 @@ public class MedlinkerRefreshHeaderView extends FrameLayout implements IRefreshT
     //资源文件的文件夹，mimmap,drawable
     private String resFolder = "drawable";
     //播放的频率
-    private final int fps = 20;
+    private final int fps = 25;
 
     private final int size;
 
@@ -49,7 +49,7 @@ public class MedlinkerRefreshHeaderView extends FrameLayout implements IRefreshT
 
     public MedlinkerRefreshHeaderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        size = 30;
+        size = 39;
         setupViews();
     }
 
@@ -75,7 +75,7 @@ public class MedlinkerRefreshHeaderView extends FrameLayout implements IRefreshT
 
     @Keep
     public void setResIndex(int resIndex) {
-//        System.out.println(" setResIndex resIndex "+resIndex);
+        System.out.println(" setResIndex resIndex "+resIndex);
         this.resIndex = resIndex;
         if (TextUtils.isEmpty(resStartName)) {
             throw new RuntimeException("资源文件前缀名称不能为空");
@@ -94,53 +94,65 @@ public class MedlinkerRefreshHeaderView extends FrameLayout implements IRefreshT
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                setResIndex(((Integer) animation.getAnimatedValue()) + 5);
+                setResIndex((Integer) animation.getAnimatedValue());
             }
         });
         return animator;
     }
 
     private ValueAnimator getObjectAnimatior(int resSize) {
-        return ValueAnimator.ofInt( 0, resSize);
+        return ValueAnimator.ofInt(0, resSize);
     }
 
     private void checkAnimator() {
-        if(valueAnimator == null){
+        if (valueAnimator == null) {
             valueAnimator = getRepeateAnimatior();
         }
     }
+
+    private void cancelAnim() {
+        checkAnimator();
+        if(valueAnimator.isRunning() || valueAnimator.isStarted()){
+            valueAnimator.cancel();
+        }
+    }
+
+    private void startAnim(){
+        checkAnimator();
+        if(valueAnimator.isRunning() || valueAnimator.isStarted()){
+            return;
+        }
+        valueAnimator.start();
+    }
+
     @Override
     public void onPullDownState(float progress) {
-        //查看素材 05 - 35 正好是一个完整动画
-        setResIndex(Math.round(progress * size) + 5);
+        cancelAnim();
+        setResIndex(Math.round(progress * size));
         refreshState.setText("下拉刷新");
     }
 
     @Override
     public void onRefreshing() {
         System.out.println("refreshing");
-        setResIndex(35);
-        checkAnimator();
-        valueAnimator.start();
+        startAnim();
         refreshState.setText("刷新中");
     }
 
     @Override
     public void onReleaseToRefresh() {
+        startAnim();
         refreshState.setText("松开刷新");
-        setResIndex(35);
     }
 
     @Override
     public void onComplete() {
-        checkAnimator();
-        valueAnimator.cancel();
-        setResIndex(35);
+        cancelAnim();
         refreshState.setText("刷新完成");
     }
 
     @Override
-    public void reset() {
+    public void init() {
         checkAnimator();
         valueAnimator.cancel();
     }

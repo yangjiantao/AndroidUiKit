@@ -53,7 +53,6 @@ public class ClassicIRefreshHeaderView extends FrameLayout implements IRefreshTr
 
         rotateDown = AnimationUtils.loadAnimation(context, R.anim.rotate_down);
         setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        reset();
     }
 
     @Override
@@ -107,7 +106,7 @@ public class ClassicIRefreshHeaderView extends FrameLayout implements IRefreshTr
     }
 
     @Override
-    public void reset() {
+    public void init() {
         rotated = false;
         ivSuccess.setVisibility(GONE);
         ivArrow.clearAnimation();

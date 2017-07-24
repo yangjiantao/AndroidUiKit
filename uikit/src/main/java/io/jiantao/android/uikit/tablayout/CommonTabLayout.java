@@ -31,6 +31,8 @@ import java.util.List;
 import io.jiantao.android.uikit.R;
 
 /** 没有继承HorizontalScrollView不能滑动,对于ViewPager无依赖 */
+// TODO: 2017/7/5 参考FragmentHost写一个更能满足需求的
+@Deprecated
 public class CommonTabLayout extends FrameLayout implements ValueAnimator.AnimatorUpdateListener {
     private Context mContext;
     private ArrayList<CommonTabEntity> mTabEntitys = new ArrayList<>();

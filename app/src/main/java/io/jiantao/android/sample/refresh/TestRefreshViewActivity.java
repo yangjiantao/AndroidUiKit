@@ -39,13 +39,14 @@ public class TestRefreshViewActivity extends Activity {
         refreshLayout.setOnRefreshListener(new ISwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                handler.sendEmptyMessageDelayed(1, 8000);
+                handler.sendEmptyMessageDelayed(1, 3000);
             }
         });
 
         refreshLayout.setRefreshHeaderView(new MedlinkerRefreshHeaderView(this).setResFolder("mipmap").setResStartName("loading_000"));
-//        handler.sendEmptyMessageDelayed(0, 2000);
-        refreshLayout.setEnabled(false);
+        handler.sendEmptyMessageDelayed(0, 2000);
+//        refreshLayout.setRefreshHeaderView(new AvLoadingRefreshView(this));
+        refreshLayout.setEnabled(true);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDividerItemDecoration.VERTICAL);
@@ -112,7 +113,7 @@ public class TestRefreshViewActivity extends Activity {
             switch (msg.what){
                 case 0:// refreshing ture
                     refreshLayout.setRefreshing(true);
-                    handler.sendEmptyMessageDelayed(1, 8000);
+                    handler.sendEmptyMessageDelayed(1, 3000);
                     break;
 
                 case 1:// refreshing false

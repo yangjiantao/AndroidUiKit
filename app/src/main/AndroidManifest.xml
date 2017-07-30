@@ -45,6 +45,19 @@
 
         </activity>
 
+        <!--animation-->
+        <activity android:name=".animation.TestAnimationActivity"
+            android:label="animation/TestAnimationActivity"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="io.jiantao.android.sample.cagegory" />
+            </intent-filter>
+
+        </activity>
+
+        <!--animation-->
+
 
         <!--<activity android:name=".refresh.TestRefreshViewActivity"/>-->
     </application>

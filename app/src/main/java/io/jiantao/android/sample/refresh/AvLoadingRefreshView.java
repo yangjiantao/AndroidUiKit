@@ -5,8 +5,9 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 
-import io.jiantao.android.uikit.avloading.AVLoadingIndicatorView;
-import io.jiantao.android.uikit.avloading.indicators.BallZigZagIndicator;
+import com.wang.avi.AVLoadingIndicatorView;
+import com.wang.avi.indicators.BallZigZagIndicator;
+
 import io.jiantao.android.uikit.refresh.IRefreshTrigger;
 import io.jiantao.android.uikit.util.DimenUtil;
 
@@ -33,7 +34,6 @@ public class AvLoadingRefreshView extends AVLoadingIndicatorView implements IRef
         BallZigZagIndicator indicator = new BallZigZagIndicator();
         setIndicator(indicator);
         setIndicatorColor(Color.BLUE);
-        stopAnimation();
         setLayoutParams(new ViewGroup.LayoutParams(DimenUtil.dp2px(context, 48), DimenUtil.dp2px(context, 48)));
     }
 
@@ -55,7 +55,6 @@ public class AvLoadingRefreshView extends AVLoadingIndicatorView implements IRef
     @Override
     public void onComplete() {
         setVisibility(INVISIBLE);
-//        stopAnimation();
     }
 
     @Override

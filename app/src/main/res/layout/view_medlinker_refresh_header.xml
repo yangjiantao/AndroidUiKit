@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="65dp"
-    android:gravity="center"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="200dp"
+    android:layout_height="100dp"
+    android:gravity="center"
     android:orientation="vertical">
 
     <ImageView
@@ -11,7 +11,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:scaleType="center"
-        android:src="@mipmap/loading_00035"/>
+        />
 
     <TextView
         android:id="@+id/tv_refresh_state"
@@ -19,6 +19,6 @@
         android:layout_height="wrap_content"
         android:textColor="#454545"
         android:textSize="12sp"
-        tools:text="松开刷新"/>
+        tools:text="松开刷新" />
 
 </LinearLayout>

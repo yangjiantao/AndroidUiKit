@@ -43,7 +43,7 @@ public class TestRefreshViewActivity extends Activity {
             }
         });
 
-        refreshLayout.setRefreshHeaderView(new MedlinkerRefreshHeaderView(this).setResFolder("mipmap").setResStartName("loading_000"));
+        refreshLayout.setRefreshHeaderView(new MedlinkerRefreshHeaderView(this));
         handler.sendEmptyMessageDelayed(0, 2000);
 //        refreshLayout.setRefreshHeaderView(new AvLoadingRefreshView(this));
         refreshLayout.setEnabled(true);

@@ -69,11 +69,26 @@ public class FrameAnimDrawable extends Drawable implements Animatable {
         mAnimUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                resIndex = ((int) animation.getAnimatedValue());
+                invalidate(((int) animation.getAnimatedValue()));
 //                System.out.println("FrameAnimDrawable onAnimationUpdate resIndex "+resIndex);
-                invalidateSelf();
             }
         };
+    }
+
+    /**
+     * 重绘。亦可供外部调用。
+     * @param index 帧索引
+     */
+    public void invalidate(int index) {
+        this.resIndex = index;
+        invalidateSelf();
+    }
+
+    /**
+     * @return 帧数量
+     */
+    public int getFrameCount(){
+        return RES_IDS.length;
     }
 
     @Override

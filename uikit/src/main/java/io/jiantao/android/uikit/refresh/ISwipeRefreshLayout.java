@@ -115,8 +115,7 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
 
     private View mRefreshView;
 
-    //    CircleImageView mCircleView;
-    private int mCircleViewIndex = -1;
+    private int mRefreshViewIndex = -1;
 
     float mStartingScale;
 
@@ -128,7 +127,7 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
 
     boolean mNotify;
 
-    private int mHeaderViewHeight;
+    private int mRefreshViewHeight;
 
     // Whether the client has set a custom starting position;
     boolean mUsingCustomStart;
@@ -213,8 +212,8 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
         mDecelerateInterpolator = new DecelerateInterpolator(DECELERATE_INTERPOLATION_FACTOR);
 
         final DisplayMetrics metrics = getResources().getDisplayMetrics();
-        mHeaderViewHeight = (int) (DEFAULT_HEADER_HEIGHT * metrics.density);
-        HEADER_VIEW_MIN_HEIGHT = mHeaderViewHeight;
+        mRefreshViewHeight = (int) (DEFAULT_HEADER_HEIGHT * metrics.density);
+        HEADER_VIEW_MIN_HEIGHT = mRefreshViewHeight;
         ViewCompat.setChildrenDrawingOrderEnabled(this, true);
         mTotalDragDistance = (int) (DEFAULT_HEADER_TARGET * metrics.density);
         mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
@@ -232,12 +231,12 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
 
     @Override
     protected int getChildDrawingOrder(int childCount, int i) {
-        if (mCircleViewIndex < 0) {
+        if (mRefreshViewIndex < 0) {
             return i;
         } else if (i == childCount - 1) {
             // Draw the selected child last
-            return mCircleViewIndex;
-        } else if (i >= mCircleViewIndex) {
+            return mRefreshViewIndex;
+        } else if (i >= mRefreshViewIndex) {
             // Move the children after the selected child earlier one
             return i + 1;
         } else {
@@ -404,7 +403,8 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
         child.layout(childLeft, childTop, childLeft + childWidth, childTop + childHeight);
         if(mRefreshView != null){
             int refreshWidth = mRefreshView.getMeasuredWidth();
-            mRefreshView.layout((width/2 - refreshWidth/2), childTop - mHeaderViewHeight, (width/2 + refreshWidth/2), childTop);
+            //使mRefreshView相对父控件水平方向居中，竖直方向在父控件的上面位置，刚好看不见。
+            mRefreshView.layout((width/2 - refreshWidth/2), childTop - mRefreshViewHeight, (width/2 + refreshWidth/2), childTop);
         }
     }
 
@@ -422,13 +422,15 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
                 MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(
                 getMeasuredHeight() - getPaddingTop() - getPaddingBottom(), MeasureSpec.EXACTLY));
         if(mRefreshView != null){
+            //计算view宽高
             measureChild(mRefreshView, widthMeasureSpec, heightMeasureSpec);
+            //缓存一些变量
             updateBaseValues(mRefreshView.getMeasuredHeight());
-            mCircleViewIndex = -1;
+            mRefreshViewIndex = -1;
             // Get the index of the circleview.
             for (int index = 0; index < getChildCount(); index++) {
                 if (getChildAt(index) == mRefreshView) {
-                    mCircleViewIndex = index;
+                    mRefreshViewIndex = index;
                     break;
                 }
             }
@@ -437,9 +439,9 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
 
     // 更新基础信息
     private void updateBaseValues(int refreshViewHeight) {
-        mHeaderViewHeight = refreshViewHeight;
-        mOriginalOffsetTop = -mHeaderViewHeight;
-        setDistanceToTriggerSync(Math.round(mHeaderViewHeight * 1.5f));
+        mRefreshViewHeight = refreshViewHeight;
+        mOriginalOffsetTop = -mRefreshViewHeight;
+        setDistanceToTriggerSync(Math.round(mRefreshViewHeight * 1.5f));
     }
 
     /**
@@ -700,17 +702,18 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
             mRefreshView.setScaleY(1f);
         }
 
-        if (mScale) {
+        if (mScale) {//大小缩放动画
             setAnimationProgress(Math.min(1f, overscrollTop / mTotalDragDistance));
         }
         float progress = overscrollTop / mTotalDragDistance;
-        if (progress < 1.0f) {
+        if (progress < 1.0f) {//下拉至触发点的百分比
             getRefreshTrigger().onPullDownState(progress);
-        } else {
+        } else {//释放即可触发刷新
             getRefreshTrigger().onReleaseToRefresh();
         }
-
+        //下拉过程view的移动距离
         final float tranlationY = overscrollTop > mTotalDragDistance ? mTotalDragDistance : overscrollTop;
+        //执行移动动画
         translateContentViews(tranlationY);
     }
 
@@ -884,9 +887,7 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
     private final Animation mAnimateToCorrectPosition = new Animation() {
         @Override
         public void applyTransformation(float interpolatedTime, Transformation t) {
-            final float translationY = mRefreshView.getTranslationY() + (mHeaderViewHeight - mRefreshView.getTranslationY()) * interpolatedTime;
-//            System.out.println(" mAnimateToCorrectPosition translationY "+translationY+" mRefreshView.getTranslationY() "+mRefreshView.getTranslationY()
-//            +"; mHeaderViewHeight "+mHeaderViewHeight+" interpolatedTime "+interpolatedTime);
+            final float translationY = mRefreshView.getTranslationY() + (mRefreshViewHeight - mRefreshView.getTranslationY()) * interpolatedTime;
             translateContentViews(translationY);
         }
     };
@@ -929,11 +930,9 @@ public class ISwipeRefreshLayout extends ViewGroup implements NestedScrollingPar
 
         //mTarget translationY offset
         if (mTarget != null) {
-            final float maxValue = mRefreshView.getTranslationY() + mHeaderViewHeight;
+            final float maxValue = mRefreshView.getTranslationY() + mRefreshViewHeight;
             ViewCompat.setTranslationY(mTarget, transY > maxValue ? maxValue : transY);
         }
-//        System.out.println(" translateTargetView getTransY "+mTarget.getTranslationY()+"; getY "+mTarget.getY()+"; mTarget.getTop "+mTarget.getTop()+" " +
-//                "\n mRefreshView.getTop "+mRefreshView.getTop()+" mRefreshView.getTranslationY "+mRefreshView.getTranslationY());
     }
 
     private void onSecondaryPointerUp(MotionEvent ev) {

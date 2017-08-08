@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 
 import com.wang.avi.AVLoadingIndicatorView;
-import com.wang.avi.indicators.BallZigZagIndicator;
+import com.wang.avi.indicators.LineScaleIndicator;
 
 import io.jiantao.android.uikit.refresh.IRefreshTrigger;
 import io.jiantao.android.uikit.util.DimenUtil;
@@ -31,7 +31,7 @@ public class AvLoadingRefreshView extends AVLoadingIndicatorView implements IRef
     }
 
     private void init(Context context) {
-        BallZigZagIndicator indicator = new BallZigZagIndicator();
+        LineScaleIndicator indicator = new LineScaleIndicator();
         setIndicator(indicator);
         setIndicatorColor(Color.BLUE);
         setLayoutParams(new ViewGroup.LayoutParams(DimenUtil.dp2px(context, 48), DimenUtil.dp2px(context, 48)));

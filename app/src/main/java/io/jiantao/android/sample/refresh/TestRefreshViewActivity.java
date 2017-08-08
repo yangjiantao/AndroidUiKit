@@ -35,17 +35,17 @@ public class TestRefreshViewActivity extends Activity {
         setContentView(R.layout.activity_list);
 
         refreshLayout = (ISwipeRefreshLayout) findViewById(R.id.refresh_layout);
-
         refreshLayout.setOnRefreshListener(new ISwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                // do refresh ...
                 handler.sendEmptyMessageDelayed(1, 3000);
             }
         });
-
+//        refreshLayout.setRefreshHeaderView(new AvLoadingRefreshView(this));
+//
         refreshLayout.setRefreshHeaderView(new MedlinkerRefreshHeaderView(this));
         handler.sendEmptyMessageDelayed(0, 2000);
-//        refreshLayout.setRefreshHeaderView(new AvLoadingRefreshView(this));
         refreshLayout.setEnabled(true);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -113,7 +113,7 @@ public class TestRefreshViewActivity extends Activity {
             switch (msg.what){
                 case 0:// refreshing ture
                     refreshLayout.setRefreshing(true);
-                    handler.sendEmptyMessageDelayed(1, 3000);
+                    handler.sendEmptyMessageDelayed(1, 30000);
                     break;
 
                 case 1:// refreshing false

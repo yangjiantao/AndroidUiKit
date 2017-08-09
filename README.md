@@ -7,7 +7,8 @@
 
 ### 经典下拉刷新效果
 推荐一个[动画库](https://github.com/81813780/AVLoadingIndicatorView),效果很棒，代码简洁，本文ISwipeRefreshLayout组件可直接使用。代码在手，想怎么搞都行。
-<img src="art/refreshview/20170618-212852-refresh.gif" width=216/> <img src="art/av-loading-line.gif" width=216/> <img src="art/loading_test_001.gif" width=216/>
+<img src="art/av-loading-line.gif" width=216/> 
+<img src="art/loading_test_001.gif" width=216/>
 
 ### 参考资料
 - [IRecyclerView](https://github.com/Aspsine/IRecyclerView)

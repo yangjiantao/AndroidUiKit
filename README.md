@@ -44,8 +44,20 @@ IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDivi
 在[MultiType](https://github.com/drakeet/MultiType)库的基础上，实现的支持上拉加载更多的Adapter，加载效果简单，这里就不贴出来了。另外，MultiType是一个很优秀的库，完爆各类对Adapter的封装库，值得查阅源码。
 
 ## FrameAnimDrawable
-一个解决安卓帧动画OOM的组件。[详情](http://www.jianshu.com/p/3a8861678a45)
+一个解决安卓帧动画OOM的组件。[文章详情](http://www.jianshu.com/p/3a8861678a45)
 
+## Multi-media selector
+图片选择，相信大多数app都有这个功能，这里推荐两个优秀的开源库。
+- [知乎-Matisse](https://github.com/zhihu/Matisse)
+  | Zhihu Style                    | Dracula Style                     | Preview                          |
+  |:------------------------------:|:---------------------------------:|:--------------------------------:|
+  |![](https://github.com/zhihu/Matisse/blob/master/image/screenshot_zhihu.png) | ![](https://github.com/zhihu/Matisse/blob/master/image/screenshot_dracula.png) | ![](https://github.com/zhihu/Matisse/blob/master/image/screenshot_preview.png)|
+  
+- [Bilibili-boxing](https://github.com/Bilibili/boxing)
+ ![multi_image](https://github.com/Bilibili/boxing/blob/master/screenshot/multi_image.webp)
+ ![single_image_crop](https://github.com/Bilibili/boxing/blob/master/screenshot/single_image_crop.webp)
+
+这两个都不错，经过考察结合实际情况，我们项目使用的boxing。
 
 ## Thanks
 感谢所有开源项目作者。

@@ -49,13 +49,12 @@ IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDivi
 ## Multi-media selector
 图片选择，相信大多数app都有这个功能，这里推荐两个优秀的开源库。
 - [知乎-Matisse](https://github.com/zhihu/Matisse)
-  | Zhihu Style                    | Dracula Style                     | Preview                          |
-  |:------------------------------:|:---------------------------------:|:--------------------------------:|
-  |![](https://github.com/zhihu/Matisse/blob/master/image/screenshot_zhihu.png) | ![](https://github.com/zhihu/Matisse/blob/master/image/screenshot_dracula.png) | ![](https://github.com/zhihu/Matisse/blob/master/image/screenshot_preview.png)|
+
+  <img src="https://github.com/zhihu/Matisse/blob/master/image/screenshot_zhihu.png" width=216/>  <img src="https://github.com/zhihu/Matisse/blob/master/image/screenshot_preview.png" width=216/> 
   
 - [Bilibili-boxing](https://github.com/Bilibili/boxing)
- ![multi_image](https://github.com/Bilibili/boxing/blob/master/screenshot/multi_image.webp)
- ![single_image_crop](https://github.com/Bilibili/boxing/blob/master/screenshot/single_image_crop.webp)
+
+ <img src="https://github.com/Bilibili/boxing/blob/master/screenshot/multi_image.webp" width=216/> <img src="https://github.com/Bilibili/boxing/blob/master/screenshot/single_image_crop.webp" width=216/>
 
 这两个都不错，经过考察结合实际情况，我们项目使用的boxing。
 

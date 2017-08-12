@@ -54,7 +54,7 @@ IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDivi
   
 - [Bilibili-boxing](https://github.com/Bilibili/boxing)
 
- <img src="https://github.com/Bilibili/boxing/blob/master/screenshot/multi_image.webp" width=216/> <img src="https://github.com/Bilibili/boxing/blob/master/screenshot/single_image_crop.webp" width=216/>
+  <img src="https://github.com/Bilibili/boxing/blob/master/screenshot/multi_image.webp" width=216/> <img src="https://github.com/Bilibili/boxing/blob/master/screenshot/single_image_crop.webp" width=216/>
 
 这两个都不错，经过考察结合实际情况，我们项目使用的boxing。
 

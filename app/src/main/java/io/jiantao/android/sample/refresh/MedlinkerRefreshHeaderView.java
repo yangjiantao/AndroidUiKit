@@ -90,4 +90,10 @@ public class MedlinkerRefreshHeaderView extends FrameLayout implements IRefreshT
 //        checkAnimator();
 //        valueAnimator.cancel();
     }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        drawable.stop();
+    }
 }

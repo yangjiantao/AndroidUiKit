@@ -30,12 +30,12 @@ public class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
         try {
             Fragment fragment = mCachedFragments.get(position);
             FragmentData data = mFragmentDatas.get(position);
-            if(fragment == null || fragment.isRemoving() || !fragment.getClass().equals(data.fragmentClass)){
+            if (fragment == null || fragment.isRemoving() || !fragment.getClass().equals(data.fragmentClass)) {
                 fragment = (Fragment) data.fragmentClass.newInstance();
                 mCachedFragments.put(position, fragment);
             }
 
-            if(data.bundle != null){
+            if (data.bundle != null) {
                 fragment.setArguments(data.bundle);
             }
             return fragment;
@@ -50,11 +50,11 @@ public class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
         return mFragmentDatas.size();
     }
 
-    public Fragment getFragment(int position){
+    public Fragment getFragment(int position) {
         return mCachedFragments.get(position);
     }
 
-    public void addFragment(FragmentData data){
+    public void addFragment(FragmentData data) {
         mFragmentDatas.add(data);
         notifyDataSetChanged();
     }
@@ -62,6 +62,11 @@ public class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getItemPosition(Object object) {
         return POSITION_NONE;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mFragmentDatas.get(position).title;
     }
 
     /**

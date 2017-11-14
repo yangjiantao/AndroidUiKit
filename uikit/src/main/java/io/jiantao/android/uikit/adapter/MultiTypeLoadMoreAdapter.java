@@ -1,7 +1,11 @@
 package io.jiantao.android.uikit.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
+import android.view.ViewGroup;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,15 +18,21 @@ import me.drakeet.multitype.TypePool;
 
 /**
  * 分页加载Adapter
- * Created by jiantao on 2017/6/29.
+ * @author jiantao
  */
 
 public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMoreDelegate.LoadMoreSubject {
+    private static final String TAG = MultiTypeLoadMoreAdapter.class.getSimpleName();
+    /**
+     * loadmore view类型值，对应Adapter中getitemviewtype，由于初始化时首先rigiter了loadmoreitem.class，所以对应type为0.
+     */
+    final int LOAD_MORE_ITEM_TYPE = 0;
 
     final LoadMoreItem loadMoreItem;
     final LoadMoreItemViewBinder loadMoreItemViewBinder;
     final LoadMoreDelegate loadMoreDelegate;
     private LoadMoreDelegate.LoadMoreSubject loadMoreSubject;
+
     public MultiTypeLoadMoreAdapter() {
         this(Collections.emptyList());
     }
@@ -45,8 +55,8 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
 
     @Override
     public void setItems(@NonNull List<?> items) {
-        if(items.isEmpty()){
-           return;
+        if (items.isEmpty()) {
+            return;
         }
 
         Items tempItems = new Items();
@@ -58,13 +68,14 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
     }
 
     private void checkLoadMoreItem(Items tempItems) {
-        if(getItemCount() <= 0){//有数据就表示已添加
+        //有数据就表示已添加
+        if (getItemCount() <= 0) {
             tempItems.add(loadMoreItem);
         }
     }
 
-    public void appendItems(@NonNull List<?> datas){
-        if(datas.isEmpty()){
+    public void appendItems(@NonNull List<?> datas) {
+        if (datas.isEmpty()) {
             return;
         }
 
@@ -79,9 +90,9 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
         notifyItemRangeChanged(index, datas.size());
     }
 
-    public void setLoadMoreItemState(@LoadMoreItem.ItemState int state){
+    public void setLoadMoreItemState(@LoadMoreItem.ItemState int state) {
         int tips;
-        switch(state){
+        switch (state) {
             case LoadMoreItem.STATE_COMPLETED:
                 tips = R.string.uikit_loadmore_complete_tips;
                 break;
@@ -99,13 +110,41 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
         notifyItemChanged(getItemCount() - 1);
     }
 
-    public void setLoadMoreItemRetryListener(OnLoadMoreRetryListener listener){
+    public void setLoadMoreItemRetryListener(OnLoadMoreRetryListener listener) {
         loadMoreItemViewBinder.setRetryListener(listener);
     }
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         loadMoreDelegate.attach(recyclerView);
+        final RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if (layoutManager == null) {
+            Log.e(TAG, "Cannot setSpanSizeLookup on a null LayoutManager Object. " +
+                    "Call setLayoutManager with a non-null argument.");
+            return;
+        }
+
+        if (layoutManager instanceof GridLayoutManager) {
+            ((GridLayoutManager) layoutManager).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return getItemViewType(position) == LOAD_MORE_ITEM_TYPE ? ((GridLayoutManager) layoutManager).getSpanCount() : 1;
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        final ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+        if (layoutParams == null) {
+            Log.e(TAG, " onViewAttacedToWindow layoutParams is a null object , Call setLayoutManager with a non-null argument.");
+            return;
+        }
+        if (layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
+            ((StaggeredGridLayoutManager.LayoutParams) layoutParams).setFullSpan(holder.getItemViewType() == LOAD_MORE_ITEM_TYPE);
+        }
     }
 
     public void setLoadMoreSubject(LoadMoreDelegate.LoadMoreSubject loadMoreSubject) {
@@ -119,7 +158,7 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
 
     @Override
     public void onLoadMore() {
-        if(loadMoreSubject != null){
+        if (loadMoreSubject != null) {
             loadMoreSubject.onLoadMore();
         }
     }

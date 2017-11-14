@@ -40,8 +40,14 @@ IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDivi
 ![tablayout](/art/tablayout/QQ20170625-213831-tablayout.gif)
 
 
-## MultiTypeLoadMoreAdapter
-在[MultiType](https://github.com/drakeet/MultiType)库的基础上，实现的支持上拉加载更多的Adapter，加载效果简单，这里就不贴出来了。另外，MultiType是一个很优秀的库，完爆各类对Adapter的封装库，值得查阅源码。
+## MultiType(复杂列表视图新写法）
+
+在[MultiType](https://github.com/drakeet/MultiType)库的基础上，实现的支持上拉加载更多的[MultiTypeLoadMoreAdapter](https://github.com/yangjiantao/AndroidUiKit/blob/master/uikit/src/main/java/io/jiantao/android/uikit/adapter/MultiTypeLoadMoreAdapter.java),
+支持各种layoutmanager布局，加载效果简单，这里就不贴出来了。
+
+另外，MultiType是一个很棒的库，设计优秀，代码简单，完爆各类对Adapter的封装库，值得查阅源码。
+
+<img src="https://camo.githubusercontent.com/b63af3e94584f054d2a861ddd14bf1a6a1ca4b8f/687474703a2f2f7777312e73696e61696d672e636e2f6d77313032342f38366532666638356a7731663961377a3479716c6b6a32313430317a346e38722e6a7067" width=216/>  <img src="https://github.com/drakeet/MultiType/blob/3.x/art/screenshot-bilibili.png" width=216/>
 
 ## FrameAnimDrawable
 一个解决安卓帧动画OOM的组件。[文章详情](http://www.jianshu.com/p/3a8861678a45)
@@ -58,7 +64,4 @@ IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDivi
 
 这两个都不错，经过考察结合实际情况，我们项目使用的boxing。
 
-## Thanks
-感谢所有开源项目作者。
-
-
+## Thanks 感谢所有开源项目作者。

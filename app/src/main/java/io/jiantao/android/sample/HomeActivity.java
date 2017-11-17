@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class HomeActivity extends ListActivity {
 
-    public static final String APP_CAGEGORY = "io.jiantao.android.sample.cagegory";
+    public static final String APP_CAGEGORY = "io.jiantao.android.sample.category";
     public static final String APP_PATH = "io.jiantao.android.sample.Path";
 
     @Override

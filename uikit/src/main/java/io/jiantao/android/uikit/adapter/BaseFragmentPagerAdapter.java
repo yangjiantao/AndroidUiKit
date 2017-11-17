@@ -7,10 +7,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.SparseArray;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 /**
+ * 只支持新增Fragment。不能删除fragment和更新arguments
  * @author jiantao
  */
 public class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
@@ -70,37 +72,49 @@ public class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
     }
 
     /**
+     * call setAdapter before
+     */
+    public void sort() {
+        if (this.mFragmentDatas != null && !mFragmentDatas.isEmpty()) {
+            mCachedFragments.clear();
+            Collections.sort(mFragmentDatas);
+        }
+    }
+
+    /**
      * contains: title, fragmentClass and fragment args(arguments)
      */
     public static class FragmentData implements Comparable<FragmentData> {
         /**
          * the title to show
          */
-        public String title;
+        private String title;
         /**
          * the fragment class
          */
-        public Class<?> fragmentClass;
+        private Class<?> fragmentClass;
         /**
          * the arguments of create fragment
          */
-        public Bundle bundle;
+        private Bundle bundle;
         /**
          * this is only used in {@link BaseFragmentPagerAdapter#sort(Comparator)}
          */
-        public int priority;
+        private int priority;
 
         /**
          * the extra data
          */
-        public Object extra;
+        private Object extra;
 
 
-        public FragmentData(@NonNull String title, @NonNull Class<?> fragmentClass, Bundle bundle) {
+        private FragmentData(@NonNull String title, @NonNull Class<?> fragmentClass, Bundle bundle, int priority, Object extra) {
             super();
             this.title = title;
             this.fragmentClass = fragmentClass;
             this.bundle = bundle;
+            this.priority = priority;
+            this.extra = extra;
         }
 
         @Override
@@ -134,6 +148,60 @@ public class BaseFragmentPagerAdapter extends FragmentPagerAdapter {
                     ", extra=" + extra +
                     '}';
         }
-    }
 
+
+        public static class Builder {
+            /**
+             * the title to show
+             */
+            private String title;
+            /**
+             * the fragment class
+             */
+            private Class<?> fragmentClass;
+            /**
+             * the arguments of create fragment
+             */
+            private Bundle bundle;
+            /**
+             * this is only used in {@link BaseFragmentPagerAdapter#sort(Comparator)}
+             */
+            private int priority;
+
+            /**
+             * the extra data
+             */
+            private Object extra;
+
+            public Builder setTitle(@NonNull String title) {
+                this.title = title;
+                return this;
+            }
+
+            public Builder setFragmentClass(@NonNull Class<?> fragmentClass) {
+                this.fragmentClass = fragmentClass;
+                return this;
+            }
+
+            public Builder setBundle(Bundle bundle) {
+                this.bundle = bundle;
+                return this;
+            }
+
+            public Builder setPriority(int priority) {
+                this.priority = priority;
+                return this;
+            }
+
+            public Builder setExtra(Object extra) {
+                this.extra = extra;
+                return this;
+            }
+
+            public FragmentData build() {
+                return new FragmentData(this.title, this.fragmentClass, this.bundle, this.priority, this.extra);
+            }
+
+        }
+    }
 }

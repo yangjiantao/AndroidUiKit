@@ -1,15 +1,15 @@
 ext {
     android = [
-            compileSdkVersion: 25,
-            buildToolsVersion: "25.0.2",
-            minSdkVersion    : 15,
+            compileSdkVersion: 26,
+            buildToolsVersion: "26.0.2",
+            minSdkVersion    : 18,
             targetSdkVersion : 25,
-            versionCode      : 500,
-            versionName      : "5.0.0",
+            versionCode      : 100,
+            versionName      : "1.0.0",
     ]
 
     versions = [
-            androidSupportSdkVersion: "25.3.1",
+            androidSupportSdkVersion: "26.0.2",
             dagger2Version          : "2.8",
             retrofitVersion         : "2.2.0",
             butterknifeVersion      : "8.5.1",
@@ -43,6 +43,7 @@ ext {
             "multitype"                : "me.drakeet.multitype:multitype:3.0.1",
             "butterknife"               : "com.jakewharton:butterknife:${versions["butterknifeVersion"]}",
             "butterknife-apt"           : "com.jakewharton:butterknife-compiler:${versions["butterknifeVersion"]}",
+            "subsampling-scale-image-view"     : "com.davemorrissey.labs:subsampling-scale-image-view:3.7.2",
 
             //rx2
             "rxlifecycle"               : "com.trello.rxlifecycle2:rxlifecycle:${versions["rxlifecycleVersion"]}",
@@ -74,7 +75,7 @@ ext {
             "gson"                      : "com.google.code.gson:gson:2.7",
             "heaven7-util"              : "com.heaven7.core.util:util-v1:1.1.2",
             "heaven7-adapter"           : "com.heaven7.core.adapter:adapter:1.8.1",
-            "glide"                     : "com.github.bumptech.glide:glide:3.7.0",
+            "glide"                     : "com.github.bumptech.glide:glide:4.3.0",
            // "logger"                    : "com.qpdstudio.logger:logger:1.0.8",
             "espresso-core"             : "com.android.support.test.espresso:espresso-core:2.2.2",
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="AVLoadingIndicatorView">
         <item name="minWidth">48dip</item>
         <item name="maxWidth">48dip</item>
@@ -24,4 +25,10 @@
         <item name="indicatorName">BallPulseIndicator</item>
     </style>
 
+    <style name="photoviewer_theme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
 </resources>

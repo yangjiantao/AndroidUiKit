@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.jiantao.android.sample">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,7 +26,7 @@
             android:label="refresh/TestRefreshViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="io.jiantao.android.sample.cagegory" />
+                <category android:name="io.jiantao.android.sample.category" />
             </intent-filter>
         </activity>
 
@@ -31,7 +34,7 @@
             android:label="tablayout/SlidingTabActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="io.jiantao.android.sample.cagegory" />
+                <category android:name="io.jiantao.android.sample.category" />
             </intent-filter>
         </activity>
 
@@ -51,12 +54,23 @@
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="io.jiantao.android.sample.cagegory" />
+                <category android:name="io.jiantao.android.sample.category" />
             </intent-filter>
 
         </activity>
 
         <!--animation-->
+
+        <!--view-->
+        <activity android:name=".photoview.PhotoViewerTestActivity"
+            android:label="view/PhotoViewerTestActivity"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="io.jiantao.android.sample.category"/>
+            </intent-filter>
+        </activity>
+        <!--view-->
 
 
         <!--<activity android:name=".refresh.TestRefreshViewActivity"/>-->

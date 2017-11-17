@@ -28,9 +28,12 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile rootProject.ext.dependencies["recyclerview-v7"]
+    compile rootProject.ext.dependencies["support-v4"]
+    compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["constraint-layout"]
     compile rootProject.ext.dependencies["multitype"]
-    compile rootProject.ext.dependencies["design"]
+    compile rootProject.ext.dependencies["subsampling-scale-image-view"]
+    compile rootProject.ext.dependencies["glide"]
     testCompile rootProject.ext.dependencies["junit"]
 
 }

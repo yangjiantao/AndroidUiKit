@@ -2,6 +2,7 @@ package io.jiantao.android.uikit.photoviewer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,7 +27,7 @@ import io.jiantao.android.uikit.R;
  * @date 2017/11/14
  */
 
-public class PhotoViewerActivity extends AppCompatActivity {
+public class PhotoViewerActivity extends AppCompatActivity implements DragPhotoView.OnPhotoViewDismissListener {
     private static final String EXTRA_POSITION = "photoviewer_extra_position";
     private static final String EXTRA_IMAGES = "photoviewer_extra_images";
     private static final String TAG = PhotoViewerActivity.class.getSimpleName();
@@ -53,12 +54,28 @@ public class PhotoViewerActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_viewpager);
-        setSystemUI();
+        hideSystemUI();
         PhotoViewPager viewPager = findViewById(R.id.view_pager);
         setupViews(viewPager);
     }
 
-    private void setSystemUI() {
+    private void showSystemUI() {
+        if (isFinishing()) {
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        } else {
+            WindowManager.LayoutParams attrs = getWindow().getAttributes();
+            attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().setAttributes(attrs);
+            getWindow().clearFlags(
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+    }
+
+    private void hideSystemUI() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(
@@ -73,6 +90,12 @@ public class PhotoViewerActivity extends AppCompatActivity {
             getWindow().setAttributes(attrs);
             getWindow().addFlags(
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+        //change navigationbar bg color
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setNavigationBarColor(Color.TRANSPARENT);
         }
     }
 
@@ -101,4 +124,12 @@ public class PhotoViewerActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem((position >= images.size() || position <= 0) ? 0 : position);
     }
+
+    @Override
+    public void onDismiss() {
+//        overridePendingTransition(0, 0);
+//        showSystemUI();
+        onBackPressed();
+    }
+
 }

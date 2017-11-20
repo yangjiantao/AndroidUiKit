@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
-import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
@@ -52,6 +51,8 @@ public class DragPhotoView extends SubsamplingScaleImageView {
      * 正在动画
      */
     private ValueAnimator valueAnimator;
+
+    private OnPhotoViewDismissListener dismissListener;
 
     public DragPhotoView(Context context, AttributeSet attr) {
         super(context, attr);
@@ -131,16 +132,17 @@ public class DragPhotoView extends SubsamplingScaleImageView {
                         case MotionEvent.ACTION_UP:
                             Log.d(TAG, "action = " + action + "; pointerCount = " + event.getPointerCount());
                             if (event.getPointerCount() == 1 && isDragging) {
-                                if (Math.abs(translateY) >= maxTranslateY) {
-                                    Toast.makeText(getContext(), "should finish this page ", Toast.LENGTH_LONG).show();
+                                if (Math.abs(translateY) >= maxTranslateY && dismissListener != null) {
+                                    dismissListener.onDismiss();
+                                }else{
+                                    restoreFirstEnterState();
                                 }
-                                restoreFirstEnterState();
                                 isDragging = false;
                             }
                             break;
                         case MotionEvent.ACTION_POINTER_UP:
                         case MotionEvent.ACTION_POINTER_DOWN:
-                            isDragging = false;
+//                            isDragging = false;
                             canDrag = false;
                             Log.d(TAG, "action pointerUp = " + action + "; pointerCount = " + event.getPointerCount());
                             break;
@@ -153,6 +155,10 @@ public class DragPhotoView extends SubsamplingScaleImageView {
                 return isDragging;
             }
         });
+    }
+
+    void setDismissListener(OnPhotoViewDismissListener listener){
+        this.dismissListener = listener;
     }
 
     private void restoreFirstEnterState() {
@@ -203,5 +209,13 @@ public class DragPhotoView extends SubsamplingScaleImageView {
             bgPaint = new Paint();
             bgPaint.setColor(Color.BLACK);
         }
+    }
+
+    public  interface OnPhotoViewDismissListener{
+
+        /**
+         * page dismiss listener
+         */
+        void onDismiss();
     }
 }

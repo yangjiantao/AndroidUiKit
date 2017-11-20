@@ -1,5 +1,6 @@
 package io.jiantao.android.uikit.photoviewer;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,8 +30,9 @@ public class PhotoViewFragment extends Fragment {
 
     private static final String ARGUMENTS_IMAGE = "argumens-image";
     private ProgressBar mProgressBar;
-    private SubsamplingScaleImageView mImageView;
+    private DragPhotoView mImageView;
 
+    private DragPhotoView.OnPhotoViewDismissListener dismissListener;
     public static PhotoViewFragment newInstance(String imageUrl) {
         PhotoViewFragment rawImageViewerFragment = new PhotoViewFragment();
         Bundle bundle = new Bundle();
@@ -49,6 +51,7 @@ public class PhotoViewFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mImageView = view.findViewById(R.id.siv_raw_imageview);
+        mImageView.setDismissListener(this.dismissListener);
         mImageView.setDebug(true);
         mImageView.setDoubleTapZoomScale(1.5f);
         mImageView.setMaxScale(2.5f);
@@ -68,6 +71,14 @@ public class PhotoViewFragment extends Fragment {
         mProgressBar = view.findViewById(R.id.progressbar);
         loadThumb();
         loadImageView();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof DragPhotoView.OnPhotoViewDismissListener){
+            this.dismissListener = ((DragPhotoView.OnPhotoViewDismissListener) context);
+        }
     }
 
     private void loadImageView() {

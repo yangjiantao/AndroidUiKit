@@ -89,21 +89,21 @@ public class DragPhotoView extends SubsamplingScaleImageView {
         setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                //如果正在动画，拦截不处理。
                 if (isAnimating()) {
                     return true;
                 }
+                //判断图片是否为初始状态（第一次进入后显示的大小）
                 if (isReady() && (firstDisplayScale == getScale())) {
                     final int action = event.getAction();
                     switch (action & MotionEvent.ACTION_MASK) {
                         case MotionEvent.ACTION_DOWN:
-//                            if (event.getPointerCount() == 1) {
-                                if(DEBUG) {
-                                    Log.d(TAG, "action_down  = " + firstDisplayScale + ", getScale = " + getScale() + " isFirstEnterState = " + (firstDisplayScale == getScale()));
-                                }
-                                downX = event.getX();
-                                downY = event.getY();
-                                canDrag = true;
-//                            }
+                            if (DEBUG) {
+                                Log.d(TAG, "action_down  = " + firstDisplayScale + ", getScale = " + getScale() + " isFirstEnterState = " + (firstDisplayScale == getScale()));
+                            }
+                            downX = event.getX();
+                            downY = event.getY();
+                            canDrag = true;
                             break;
 
                         case MotionEvent.ACTION_MOVE:
@@ -122,7 +122,7 @@ public class DragPhotoView extends SubsamplingScaleImageView {
                                     }
                                     bgAlpha = (int) (255 * (1 - percent));
                                     bgAlpha = bgAlpha < minBgAlpha ? minBgAlpha : bgAlpha;
-                                    //尽量将图片缩放比例变小
+                                    //尽量将图片缩放比例设置小点
                                     final float p = dy / getHeight();
                                     bitmapScale = (1 - p);
                                     bitmapScale = bitmapScale < minBitmapScale ? minBitmapScale : bitmapScale;
@@ -140,9 +140,11 @@ public class DragPhotoView extends SubsamplingScaleImageView {
                                 Log.d(TAG, "action = " + action + "; pointerCount = " + event.getPointerCount());
                             }
                             if (isDragging) {
+                                //最后一个手指离开屏幕时,检查y轴方向拖拽距离是否超过阀值，若超过则回调dismiss接口
                                 if (Math.abs(translateY) >= maxTranslateY && dismissListener != null) {
                                     dismissListener.onDismiss();
                                 }else{
+                                    //若为超过阀值，则指定动画回到初始位置。
                                     restoreFirstEnterState();
                                 }
                                 isDragging = false;
@@ -153,6 +155,7 @@ public class DragPhotoView extends SubsamplingScaleImageView {
                             if(DEBUG){
                                 Log.d(TAG, "action pointer down or up= " + action + "; pointerCount = " + event.getPointerCount());
                             }
+                            //防止拖拽过程中多点触摸导致事件错乱。
                             canDrag = isDragging;
                             break;
 
@@ -205,6 +208,7 @@ public class DragPhotoView extends SubsamplingScaleImageView {
     @Override
     protected void onDraw(Canvas canvas) {
 
+        //肯定touch move事件，不断更新以下几个变量的值来达到动画效果。
         createPaint();
         bgPaint.setAlpha(bgAlpha);
         canvas.drawRect(0, 0, getWidth(), getHeight(), bgPaint);

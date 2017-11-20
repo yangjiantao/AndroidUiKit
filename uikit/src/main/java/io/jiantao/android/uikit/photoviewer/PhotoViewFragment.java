@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -52,9 +53,24 @@ public class PhotoViewFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mImageView = view.findViewById(R.id.siv_raw_imageview);
         mImageView.setDismissListener(this.dismissListener);
-        mImageView.setDebug(true);
-        mImageView.setDoubleTapZoomScale(1.5f);
-        mImageView.setMaxScale(2.5f);
+        mImageView.setDoubleTapZoomScale(2.0f);
+        mImageView.setMaxScale(3.0f);
+        mImageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(v.getContext(), "onLongClicked", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dismissListener != null){
+                    dismissListener.onDismiss();
+                }
+            }
+        });
         mImageView.setOnImageEventListener(new SubsamplingScaleImageView.DefaultOnImageEventListener() {
             @Override
             public void onImageLoaded() {

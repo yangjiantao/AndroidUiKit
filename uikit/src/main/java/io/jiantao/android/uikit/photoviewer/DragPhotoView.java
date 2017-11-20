@@ -25,6 +25,7 @@ import io.jiantao.android.uikit.util.DimenUtil;
 
 public class DragPhotoView extends SubsamplingScaleImageView {
     private static final String TAG = DragPhotoView.class.getSimpleName();
+    private static final boolean DEBUG = true;
 
     /**
      * 图片第一次显示后缩放比例
@@ -73,11 +74,12 @@ public class DragPhotoView extends SubsamplingScaleImageView {
             @Override
             public void onGlobalLayout() {
                 if (isReady()) {
-                    Log.d(TAG, "onGlobalLayout getScale = " + getScale());
                     if (firstDisplayScale <= 0 && getScale() > 0) {
                         firstDisplayScale = getScale();
                         getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        Log.d(TAG, "onGlobalLayout final getScale = " + getScale() + " firstDisplayScale = " + firstDisplayScale);
+                        if(DEBUG){
+                            Log.d(TAG, "onGlobalLayout final getScale = " + getScale() + " firstDisplayScale = " + firstDisplayScale);
+                        }
                     }
                 }
             }
@@ -94,17 +96,19 @@ public class DragPhotoView extends SubsamplingScaleImageView {
                     final int action = event.getAction();
                     switch (action & MotionEvent.ACTION_MASK) {
                         case MotionEvent.ACTION_DOWN:
-                            if (event.getPointerCount() == 1) {
-                                Log.d(TAG, "action_down firstDisplayScale = " + firstDisplayScale + ", getScale = " + getScale() + " isFirstEnterState = " + (firstDisplayScale == getScale()));
+//                            if (event.getPointerCount() == 1) {
+                                if(DEBUG) {
+                                    Log.d(TAG, "action_down  = " + firstDisplayScale + ", getScale = " + getScale() + " isFirstEnterState = " + (firstDisplayScale == getScale()));
+                                }
                                 downX = event.getX();
                                 downY = event.getY();
                                 canDrag = true;
-                            }
+//                            }
                             break;
 
                         case MotionEvent.ACTION_MOVE:
 
-                            if (event.getPointerCount() == 1 && canDrag) {
+                            if (canDrag) {
 
                                 final float dy = Math.abs(downY - event.getY());
                                 if (firstDisplayScale == getScale() && dy > touchSlop) {
@@ -122,7 +126,9 @@ public class DragPhotoView extends SubsamplingScaleImageView {
                                     final float p = dy / getHeight();
                                     bitmapScale = (1 - p);
                                     bitmapScale = bitmapScale < minBitmapScale ? minBitmapScale : bitmapScale;
-                                    Log.d(TAG, "action_move translateX = " + translateX + "; translateY = " + translateY + "; pointerCount = " + event.getPointerCount());
+                                    if(DEBUG) {
+                                        Log.d(TAG, "action_move translateX = " + translateX + "; translateY = " + translateY + "; pointerCount = " + event.getPointerCount());
+                                    }
                                     invalidate();
                                 }
                             }
@@ -130,8 +136,10 @@ public class DragPhotoView extends SubsamplingScaleImageView {
 
                         case MotionEvent.ACTION_CANCEL:
                         case MotionEvent.ACTION_UP:
-                            Log.d(TAG, "action = " + action + "; pointerCount = " + event.getPointerCount());
-                            if (event.getPointerCount() == 1 && isDragging) {
+                            if(DEBUG) {
+                                Log.d(TAG, "action = " + action + "; pointerCount = " + event.getPointerCount());
+                            }
+                            if (isDragging) {
                                 if (Math.abs(translateY) >= maxTranslateY && dismissListener != null) {
                                     dismissListener.onDismiss();
                                 }else{
@@ -142,9 +150,10 @@ public class DragPhotoView extends SubsamplingScaleImageView {
                             break;
                         case MotionEvent.ACTION_POINTER_UP:
                         case MotionEvent.ACTION_POINTER_DOWN:
-//                            isDragging = false;
-                            canDrag = false;
-                            Log.d(TAG, "action pointerUp = " + action + "; pointerCount = " + event.getPointerCount());
+                            if(DEBUG){
+                                Log.d(TAG, "action pointer down or up= " + action + "; pointerCount = " + event.getPointerCount());
+                            }
+                            canDrag = isDragging;
                             break;
 
                         default:

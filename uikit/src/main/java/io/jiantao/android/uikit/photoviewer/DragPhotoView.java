@@ -23,7 +23,7 @@ import io.jiantao.android.uikit.util.DimenUtil;
  * @date 2017/11/16
  */
 
-public class DragPhotoView extends SubsamplingScaleImageView {
+class DragPhotoView extends SubsamplingScaleImageView {
     private static final String TAG = DragPhotoView.class.getSimpleName();
     private static final boolean DEBUG = true;
 
@@ -54,6 +54,7 @@ public class DragPhotoView extends SubsamplingScaleImageView {
     private ValueAnimator valueAnimator;
 
     private OnPhotoViewActionListener dismissListener;
+    private OnLongClickListener longClickListener;
 
     public DragPhotoView(Context context, AttributeSet attr) {
         super(context, attr);
@@ -95,10 +96,10 @@ public class DragPhotoView extends SubsamplingScaleImageView {
             }
         });
 
-        setOnLongClickListener(new OnLongClickListener() {
+        super.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                boolean consume = dismissListener != null && dismissListener.onLongClick(v);
+                boolean consume = !isDragging && dismissListener != null && dismissListener.onLongClick(v);
                 canDrag = !consume;
                 return consume;
             }
@@ -233,6 +234,13 @@ public class DragPhotoView extends SubsamplingScaleImageView {
         canvas.translate(translateX, translateY);
         canvas.scale(bitmapScale, bitmapScale, getWidth() / 2, getHeight() / 2);
         super.onDraw(canvas);
+    }
+
+    @Override
+    public void setOnLongClickListener(OnLongClickListener onLongClickListener) {
+        if(DEBUG){
+            Log.e(TAG, "please use setOnPhotoViewActionListener !!!");
+        }
     }
 
     private void createPaint() {

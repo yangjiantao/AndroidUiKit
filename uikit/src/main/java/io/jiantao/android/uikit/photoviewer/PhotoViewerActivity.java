@@ -27,7 +27,7 @@ import io.jiantao.android.uikit.R;
  * @date 2017/11/14
  */
 
-public class PhotoViewerActivity extends AppCompatActivity implements DragPhotoView.OnPhotoViewDismissListener {
+public class PhotoViewerActivity extends AppCompatActivity {
     private static final String EXTRA_POSITION = "photoviewer_extra_position";
     private static final String EXTRA_IMAGES = "photoviewer_extra_images";
     private static final String TAG = PhotoViewerActivity.class.getSimpleName();
@@ -123,13 +123,6 @@ public class PhotoViewerActivity extends AppCompatActivity implements DragPhotoV
         final int position = getIntent().getIntExtra(EXTRA_POSITION, 0);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem((position >= images.size() || position <= 0) ? 0 : position);
-    }
-
-    @Override
-    public void onDismiss() {
-//        overridePendingTransition(0, 0);
-//        showSystemUI();
-        onBackPressed();
     }
 
 }

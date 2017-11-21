@@ -1,6 +1,5 @@
 package io.jiantao.android.uikit.photoviewer;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,13 +26,13 @@ import io.jiantao.android.uikit.R;
  * @author jiantao
  * @date 2017/11/14.
  */
-public class PhotoViewFragment extends Fragment {
+public class PhotoViewFragment extends Fragment implements DragPhotoView.OnPhotoViewActionListener{
 
     private static final String ARGUMENTS_IMAGE = "argumens-image";
     private ProgressBar mProgressBar;
     private DragPhotoView mImageView;
 
-    private DragPhotoView.OnPhotoViewDismissListener dismissListener;
+    private DragPhotoView.OnPhotoViewActionListener dismissListener;
     public static PhotoViewFragment newInstance(String imageUrl) {
         PhotoViewFragment rawImageViewerFragment = new PhotoViewFragment();
         Bundle bundle = new Bundle();
@@ -52,25 +51,10 @@ public class PhotoViewFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mImageView = view.findViewById(R.id.siv_raw_imageview);
-        mImageView.setDismissListener(this.dismissListener);
+        mImageView.setDismissListener(this);
         mImageView.setDoubleTapZoomScale(2.0f);
         mImageView.setMaxScale(3.0f);
-        mImageView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Toast.makeText(v.getContext(), "onLongClicked", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
 
-        mImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(dismissListener != null){
-                    dismissListener.onDismiss();
-                }
-            }
-        });
         mImageView.setOnImageEventListener(new SubsamplingScaleImageView.DefaultOnImageEventListener() {
             @Override
             public void onImageLoaded() {
@@ -89,13 +73,6 @@ public class PhotoViewFragment extends Fragment {
         loadImageView();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if(context instanceof DragPhotoView.OnPhotoViewDismissListener){
-            this.dismissListener = ((DragPhotoView.OnPhotoViewDismissListener) context);
-        }
-    }
 
     private void loadImageView() {
         final String url = getArguments().getString(ARGUMENTS_IMAGE);
@@ -118,5 +95,23 @@ public class PhotoViewFragment extends Fragment {
 
     private void loadThumb() {
         // TODO: 2017/11/14
+    }
+
+    @Override
+    public void onDismiss() {
+        if(getActivity() != null){
+            getActivity().onBackPressed();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        onDismiss();
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        Toast.makeText(v.getContext(), "onLongClicked", Toast.LENGTH_SHORT).show();
+        return true;
     }
 }

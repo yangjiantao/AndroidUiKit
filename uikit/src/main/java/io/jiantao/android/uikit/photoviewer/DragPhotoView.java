@@ -53,7 +53,7 @@ public class DragPhotoView extends SubsamplingScaleImageView {
      */
     private ValueAnimator valueAnimator;
 
-    private OnPhotoViewDismissListener dismissListener;
+    private OnPhotoViewActionListener dismissListener;
 
     public DragPhotoView(Context context, AttributeSet attr) {
         super(context, attr);
@@ -69,7 +69,7 @@ public class DragPhotoView extends SubsamplingScaleImageView {
     }
 
     private void init(Context context) {
-
+        setDebug(DEBUG);
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -84,6 +84,24 @@ public class DragPhotoView extends SubsamplingScaleImageView {
                 }
             }
 
+        });
+
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(dismissListener != null){
+                    dismissListener.onClick(v);
+                }
+            }
+        });
+
+        setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                boolean consume = dismissListener != null && dismissListener.onLongClick(v);
+                canDrag = !consume;
+                return consume;
+            }
         });
 
         setOnTouchListener(new View.OnTouchListener() {
@@ -169,7 +187,7 @@ public class DragPhotoView extends SubsamplingScaleImageView {
         });
     }
 
-    void setDismissListener(OnPhotoViewDismissListener listener){
+    void setDismissListener(OnPhotoViewActionListener listener){
         this.dismissListener = listener;
     }
 
@@ -224,7 +242,7 @@ public class DragPhotoView extends SubsamplingScaleImageView {
         }
     }
 
-    public  interface OnPhotoViewDismissListener{
+    public interface OnPhotoViewActionListener extends OnClickListener, OnLongClickListener{
 
         /**
          * page dismiss listener

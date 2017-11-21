@@ -54,7 +54,6 @@ class DragPhotoView extends SubsamplingScaleImageView {
     private ValueAnimator valueAnimator;
 
     private OnPhotoViewActionListener dismissListener;
-    private OnLongClickListener longClickListener;
 
     public DragPhotoView(Context context, AttributeSet attr) {
         super(context, attr);

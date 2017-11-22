@@ -62,6 +62,10 @@ IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDivi
 
   <img src="https://github.com/Bilibili/boxing/blob/master/screenshot/multi_image.webp" width=216/> <img src="https://github.com/Bilibili/boxing/blob/master/screenshot/single_image_crop.webp" width=216/>
 
-这两个都不错，经过考察结合实际情况，我们项目使用的boxing。
+这两个都不错，经过考察结合实际情况，我推荐使用Matisse。
+
+## 大图浏览(支持超大图)
+基于[SubsamplingScaleImageView](https://github.com/davemorrissey/subsampling-scale-image-view)开源库实现，增加单手拖拽等效果。
+<img src="/art/photoviewer/photoviewer001.gif" width=216/>  <img src="/art/photoviewer/photoviewer002.gif" width=216/> 
 
 ## Thanks 感谢所有开源项目作者。

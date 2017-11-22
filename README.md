@@ -37,7 +37,7 @@ IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDivi
 
 本项目在**FlycoTabLayout**基础上进行修改和裁剪而来。
 
-![tablayout](/art/tablayout/QQ20170625-213831-tablayout.gif)
+![tablayout](art/tablayout/QQ20170625-213831-tablayout.gif)
 
 
 ## MultiType(复杂列表视图新写法）
@@ -66,6 +66,6 @@ IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDivi
 
 ## 大图浏览(支持超大图)
 基于[SubsamplingScaleImageView](https://github.com/davemorrissey/subsampling-scale-image-view)开源库实现，增加单手拖拽等效果。
-<img src="/art/photoviewer/photoviewer001.gif" width=216/>  <img src="/art/photoviewer/photoviewer002.gif" width=216/> 
+<img src="art/photoviewer/photoviewer001.gif" width=216/>  <img src="art/photoviewer/photoviewer002.gif" width=216/> 
 
 ## Thanks 感谢所有开源项目作者。

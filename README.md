@@ -66,6 +66,7 @@ IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDivi
 
 ## 大图浏览(支持超大图)
 基于[SubsamplingScaleImageView](https://github.com/davemorrissey/subsampling-scale-image-view)开源库实现，增加单手拖拽等效果。
+
 <img src="art/photoviewer/photoview001.gif" width=216/>  <img src="art/photoviewer/photoview002.gif" width=216/> 
 
 ## Thanks 感谢所有开源项目作者。

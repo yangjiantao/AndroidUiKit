@@ -70,7 +70,15 @@
                 <category android:name="io.jiantao.android.sample.category"/>
             </intent-filter>
         </activity>
-        <!--view-->
+        <activity android:name=".view.NotificationTestActivity"
+            android:label="view/NotificationTestActivity"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="io.jiantao.android.sample.category"/>
+            </intent-filter>
+        </activity>
+       <!--view-->
 
 
         <!--<activity android:name=".refresh.TestRefreshViewActivity"/>-->

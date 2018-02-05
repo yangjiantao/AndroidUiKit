@@ -1,4 +1,4 @@
-package io.jiantao.android.sample.Fragment;
+package io.jiantao.android.sample.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

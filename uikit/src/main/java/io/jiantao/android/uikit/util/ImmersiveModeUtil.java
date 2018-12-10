@@ -174,7 +174,7 @@ public class ImmersiveModeUtil {
     }
 
     /**
-     * 先判断MIUI系统，然后Flyme，最后主流系统
+     * 先判断主流系统，然后MIUI系统，最后Flyme
      *
      * @param activity
      * @param isFontColorDark 深色字体(Light)模式
@@ -182,11 +182,12 @@ public class ImmersiveModeUtil {
      */
     @TargetApi(Build.VERSION_CODES.M)
     public static boolean setStatusBarDarkMode(@NonNull Activity activity, boolean isFontColorDark) {
-        boolean result = setMIUIStatusBarDarkIcon(activity, isFontColorDark);
+        boolean result = setCommonStatusBarDarkMode(activity, isFontColorDark);
         if (!result) {
-            result = setMeizuStatusBarDarkIcon(activity, isFontColorDark);
+            result = setMIUIStatusBarDarkIcon(activity, isFontColorDark);
+
             if (!result) {
-                result = setCommonStatusBarDarkMode(activity, isFontColorDark);
+                result = setMeizuStatusBarDarkIcon(activity, isFontColorDark);
             }
         }
         if (result) {

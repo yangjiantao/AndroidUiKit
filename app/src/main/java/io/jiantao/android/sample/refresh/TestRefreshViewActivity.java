@@ -48,10 +48,11 @@ public class TestRefreshViewActivity extends Activity {
         refreshLayout.setEnabled(false);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDividerItemDecoration.VERTICAL);
-        divierDecoration.setVerticalDividerHeight(3);
-        divierDecoration.setDividerColor(Color.BLUE);
-        divierDecoration.setDividerPadding(30);
+        IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDividerItemDecoration.VERTICAL)
+                .setVerticalDividerHeight(50)
+                .setDividerColor(Color.BLUE)
+                .setDrawable(getResources().getDrawable(R.drawable.custom_divider))
+                .setDividerPadding(30);
         recyclerView.addItemDecoration(divierDecoration);
         recyclerView.setLayoutManager(getLayoutManager());
 

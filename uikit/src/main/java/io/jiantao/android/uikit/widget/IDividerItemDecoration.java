@@ -2,12 +2,12 @@ package io.jiantao.android.uikit.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Px;
 import android.support.v4.view.ViewCompat;
@@ -36,8 +36,6 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
      */
     public static final int OFFSET_MODE_TOP = 2;
     public static final int OFFSET_MODE_LEFT = 3;
-
-    private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
 
     private final GradientDrawable mDivider;
 
@@ -131,7 +129,7 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
         return this;
     }
 
-    public IDividerItemDecoration setDividerColor(int dividerColor) {
+    public IDividerItemDecoration setDividerColor(@ColorInt int dividerColor) {
         this.mDividerColor = dividerColor;
         return this;
     }
@@ -147,6 +145,7 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
 
     /**
      * set divider's position
+     *
      * @param offsetMode {@link #OFFSET_MODE_LEFT} or {@link #OFFSET_MODE_TOP}
      */
     public IDividerItemDecoration setOffsetMode(int offsetMode) {
@@ -304,4 +303,8 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
+    private int dp2px(Context context, float dp) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
+    }
 }

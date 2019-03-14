@@ -7,11 +7,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 import java.util.Random;
 
+import android.widget.LinearLayout;
 import io.jiantao.android.sample.R;
 import io.jiantao.android.uikit.adapter.LoadMoreDelegate;
 import io.jiantao.android.uikit.adapter.LoadMoreItem;
@@ -48,13 +50,17 @@ public class TestRefreshViewActivity extends Activity {
         refreshLayout.setEnabled(false);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDividerItemDecoration.VERTICAL)
-                .setVerticalDividerHeight(50)
-                .setDividerColor(Color.BLUE)
-                .setDrawable(getResources().getDrawable(R.drawable.custom_divider))
-                .setDividerPadding(30);
-        recyclerView.addItemDecoration(divierDecoration);
         recyclerView.setLayoutManager(getLayoutManager());
+        IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDividerItemDecoration.HORIZONTAL)
+                .setVerticalDividerHeight(50)
+                .setHorizontalDividerWidth(50)
+                .setDividerColor(Color.GRAY)
+                .setOffsetMode(IDividerItemDecoration.OFFSET_MODE_LEFT)
+                .setDividerPadding(30);
+
+        // or setCustomDrawable
+        // divierDecoration.setDrawable(getResources().getDrawable(R.drawable.custom_divider))
+        recyclerView.addItemDecoration(divierDecoration);
 
         adapter = new MultiTypeLoadMoreAdapter();
         adapter.register(TextItem.class, new TextItemViewBinder());
@@ -94,7 +100,8 @@ public class TestRefreshViewActivity extends Activity {
 
     private RecyclerView.LayoutManager getLayoutManager() {
 //        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 3);
+//        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 3);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         return layoutManager;
     }
 

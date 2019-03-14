@@ -15,15 +15,25 @@
 - http://blog.csdn.net/guolin_blog/article/details/17357967
 
 
-## IDividerItemDecoration 
-  RecyclerView分割线，支持自定义height、color、padding。
-### 用法
+## IDividerItemDecoration
+
 ```
-IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDividerItemDecoration.VERTICAL);
-        divierDecoration.setVerticalDividerHeight(3);
-        divierDecoration.setDividerColor(Color.BLUE);
-        divierDecoration.setDividerPadding(30);
-        recyclerView.addItemDecoration(divierDecoration);
+/**
+ * features:
+ * 1. 支持divider height 、color 、padding 等熟悉设置
+ * 2. 自定义Divider Drawable
+ * 3. divider绘制位置。call method {@link #setOffsetMode(int)}
+ */
+
+ IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this,IDividerItemDecoration.VERTICAL)
+                .setVerticalDividerHeight(50)
+                .setDividerColor(Color.BLUE)
+                .setOffsetMode(IDividerItemDecoration.OFFSET_MODE_TOP)
+                .setDividerPadding(30);
+
+   // or setCustomDrawable
+   // divierDecoration.setDrawable(getResources().getDrawable(R.drawable.custom_divider))
+   recyclerView.addItemDecoration(divierDecoration);
 
 ```
   

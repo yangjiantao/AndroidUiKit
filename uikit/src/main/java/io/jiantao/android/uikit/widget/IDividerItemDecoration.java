@@ -19,12 +19,23 @@ import android.widget.LinearLayout;
 import io.jiantao.android.uikit.util.DimenUtil;
 
 /**
- * 支持divider height 、color 、padding 等熟悉设置，以及自定义Divider Drawable
+ * features:
+ * 1. 支持divider height 、color 、padding 等熟悉设置
+ * 2. 自定义Divider Drawable
+ * 3. divider绘制位置。call method {@link #setOffsetMode(int)}
  * Created by jiantao on 2017/6/23.
  */
 public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
+
     public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
     public static final int VERTICAL = LinearLayout.VERTICAL;
+
+
+    /**
+     * divider 在itemView中的绘制位置。
+     */
+    public static final int OFFSET_MODE_TOP = 2;
+    public static final int OFFSET_MODE_LEFT = 3;
 
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
 
@@ -54,6 +65,11 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
     private int mDividerPadding;
 
     /**
+     * divider 绘制位置。 默认水平方向绘制在itemView右边，竖直方向绘制在itemView底部
+     */
+    private int mOffsetMode = -1;
+
+    /**
      * Creates a divider {@link RecyclerView.ItemDecoration} that can be used with a
      * {@link LinearLayoutManager}.
      *
@@ -61,13 +77,11 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
      * @param orientation Divider orientation. Should be {@link #HORIZONTAL} or {@link #VERTICAL}.
      */
     public IDividerItemDecoration(Context context, int orientation) {
-        final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = new GradientDrawable();
         //默认divider 1dp
         mVerticalDividerHeight = DimenUtil.dp2px(context, 1);
         mHorizontalDividerWidth = DimenUtil.dp2px(context, 1);
         mDividerColor = Color.parseColor("lightgrey");
-        a.recycle();
         setOrientation(orientation);
     }
 
@@ -131,6 +145,15 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
         return this;
     }
 
+    /**
+     * set divider's position
+     * @param offsetMode {@link #OFFSET_MODE_LEFT} or {@link #OFFSET_MODE_TOP}
+     */
+    public IDividerItemDecoration setOffsetMode(int offsetMode) {
+        this.mOffsetMode = offsetMode;
+        return this;
+    }
+
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
         if (parent.getLayoutManager() == null) {
@@ -146,6 +169,7 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
     @SuppressLint("NewApi")
     private void drawVertical(Canvas canvas, RecyclerView parent) {
         canvas.save();
+        boolean topMode = mOffsetMode == OFFSET_MODE_TOP;
         int left;
         int right;
         if (parent.getClipToPadding()) {
@@ -163,8 +187,14 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
             for (int i = 0; i < childCount; i++) {
                 final View child = parent.getChildAt(i);
                 parent.getDecoratedBoundsWithMargins(child, mBounds);
-                final int bottom = mBounds.bottom + Math.round(child.getTranslationY());
-                final int top = bottom - mCustomDivider.getIntrinsicHeight();
+                int bottom, top;
+                if (topMode) {
+                    top = mBounds.top + Math.round(child.getTranslationY());
+                    bottom = top + mCustomDivider.getIntrinsicHeight();
+                } else {
+                    bottom = mBounds.bottom + Math.round(child.getTranslationY());
+                    top = bottom - mCustomDivider.getIntrinsicHeight();
+                }
                 mCustomDivider.setBounds(left, top, right, bottom);
                 mCustomDivider.draw(canvas);
             }
@@ -182,9 +212,12 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
             parent.getDecoratedBoundsWithMargins(child, mBounds);
-            int bottom = mBounds.bottom + Math.round(ViewCompat.getTranslationY(child));
-            int top = bottom - mDivider.getIntrinsicHeight();
-            if (mVerticalDividerHeight > 0) {//如果设置了高度，调整top的值
+            int bottom, top;
+            if (topMode) {
+                top = mBounds.top + Math.round(child.getTranslationY());
+                bottom = top + mVerticalDividerHeight;
+            } else {
+                bottom = mBounds.bottom + Math.round(ViewCompat.getTranslationY(child));
                 top = bottom - mVerticalDividerHeight;
             }
 
@@ -198,6 +231,7 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
     @SuppressLint("NewApi")
     private void drawHorizontal(Canvas canvas, RecyclerView parent) {
         canvas.save();
+        boolean leftMode = mOffsetMode == OFFSET_MODE_LEFT;
         int top;
         int bottom;
         if (parent.getClipToPadding()) {
@@ -216,8 +250,14 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
             for (int i = 0; i < childCount; i++) {
                 final View child = parent.getChildAt(i);
                 parent.getLayoutManager().getDecoratedBoundsWithMargins(child, mBounds);
-                final int right = mBounds.right + Math.round(child.getTranslationX());
-                final int left = right - mCustomDivider.getIntrinsicWidth();
+                int right, left;
+                if (leftMode) {
+                    left = mBounds.left + Math.round(child.getTranslationX());
+                    right = left + mCustomDivider.getIntrinsicWidth();
+                } else {
+                    right = mBounds.right + Math.round(child.getTranslationX());
+                    left = right - mCustomDivider.getIntrinsicWidth();
+                }
                 mCustomDivider.setBounds(left, top, right, bottom);
                 mCustomDivider.draw(canvas);
             }
@@ -234,9 +274,12 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
             parent.getLayoutManager().getDecoratedBoundsWithMargins(child, mBounds);
-            int right = mBounds.right + Math.round(ViewCompat.getTranslationX(child));
-            int left = right - mDivider.getIntrinsicWidth();
-            if (mHorizontalDividerWidth > 0) {
+            int right, left;
+            if (leftMode) {
+                left = mBounds.left + Math.round(child.getTranslationX());
+                right = left + mHorizontalDividerWidth;
+            } else {
+                right = mBounds.right + Math.round(ViewCompat.getTranslationX(child));
                 left = right - mHorizontalDividerWidth;
             }
             mDivider.setBounds(left, top, right, bottom);
@@ -249,9 +292,15 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
                                RecyclerView.State state) {
         if (mOrientation == VERTICAL) {
-            outRect.set(0, 0, 0, mVerticalDividerHeight > 0 ? mVerticalDividerHeight : mDivider.getIntrinsicHeight());
+            int height = mVerticalDividerHeight > 0 ? mVerticalDividerHeight : mDivider.getIntrinsicHeight();
+            int top = mOffsetMode == OFFSET_MODE_TOP ? height : 0;
+            int bottom = mOffsetMode == OFFSET_MODE_TOP ? 0 : height;
+            outRect.set(0, top, 0, bottom);
         } else {
-            outRect.set(0, 0, mHorizontalDividerWidth > 0 ? mHorizontalDividerWidth : mDivider.getIntrinsicWidth(), 0);
+            int width = mHorizontalDividerWidth > 0 ? mHorizontalDividerWidth : mDivider.getIntrinsicWidth();
+            int left = mOffsetMode == OFFSET_MODE_LEFT ? width : 0;
+            int right = mOffsetMode == OFFSET_MODE_LEFT ? 0 : width;
+            outRect.set(left, 0, right, 0);
         }
     }
 

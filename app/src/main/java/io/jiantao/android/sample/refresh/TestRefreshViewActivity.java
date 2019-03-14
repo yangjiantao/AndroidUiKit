@@ -6,19 +6,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
 import java.util.Random;
 
-import android.widget.LinearLayout;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import io.jiantao.android.sample.R;
-import io.jiantao.android.uikit.adapter.LoadMoreDelegate;
-import io.jiantao.android.uikit.adapter.LoadMoreItem;
-import io.jiantao.android.uikit.adapter.MultiTypeLoadMoreAdapter;
-import io.jiantao.android.uikit.adapter.OnLoadMoreRetryListener;
+import io.jiantao.android.uikit.adapter.loadmore.LoadMoreDelegate;
+import io.jiantao.android.uikit.adapter.loadmore.LoadMoreItem;
+import io.jiantao.android.uikit.adapter.loadmore.MultiTypeLoadMoreAdapter;
+import io.jiantao.android.uikit.adapter.loadmore.OnLoadMoreRetryListener;
 import io.jiantao.android.uikit.refresh.ISwipeRefreshLayout;
 import io.jiantao.android.uikit.widget.IDividerItemDecoration;
 import me.drakeet.multitype.Items;
@@ -51,11 +49,10 @@ public class TestRefreshViewActivity extends Activity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(getLayoutManager());
-        IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDividerItemDecoration.HORIZONTAL)
+        IDividerItemDecoration divierDecoration = new IDividerItemDecoration(this, IDividerItemDecoration.VERTICAL)
                 .setVerticalDividerHeight(50)
                 .setHorizontalDividerWidth(50)
                 .setDividerColor(Color.GRAY)
-                .setOffsetMode(IDividerItemDecoration.OFFSET_MODE_LEFT)
                 .setDividerPadding(30);
 
         // or setCustomDrawable
@@ -69,23 +66,20 @@ public class TestRefreshViewActivity extends Activity {
         adapter.setLoadMoreItemRetryListener(new OnLoadMoreRetryListener() {
             @Override
             public void onRetry() {
-                isLoading = true;
-                handler.sendEmptyMessageDelayed(2, 2000);
+                handler.sendEmptyMessage(2);
             }
         });
 
         adapter.setLoadMoreSubject(new LoadMoreDelegate.LoadMoreSubject() {
             @Override
             public boolean isLoading() {
-
                 return isLoading;
             }
 
             @Override
             public void onLoadMore() {
                 System.out.println(" onloacmore called ");
-                isLoading = true;
-                handler.sendEmptyMessageDelayed(2, 2000);
+                handler.sendEmptyMessage(2);
             }
         });
 
@@ -99,9 +93,9 @@ public class TestRefreshViewActivity extends Activity {
     }
 
     private RecyclerView.LayoutManager getLayoutManager() {
-//        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 //        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 3);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         return layoutManager;
     }
 
@@ -133,17 +127,22 @@ public class TestRefreshViewActivity extends Activity {
                     refreshLayout.setRefreshing(false);
                     break;
 
-                case 2://加载完成
+                case 2://加载ing
+                    isLoading = true;
+                    adapter.setLoadMoreItemState(LoadMoreItem.STATE_LOADING);
+                    handler.sendEmptyMessageDelayed(3, 2000);
+                    break;
+                case 3:// 加载成功
                     boolean succeed = random.nextBoolean();
                     if (succeed) {
                         adapter.appendItems(createItems());
-                    } else {
+                    }else{
                         adapter.setLoadMoreItemState(LoadMoreItem.STATE_FAILED);
                     }
-
+                    isLoading = false;
                     if (index < 101) {
-                        isLoading = false;
-                    } else {
+                        // do nothing
+                    } else {// load completed, no more data
                         adapter.setLoadMoreItemState(LoadMoreItem.STATE_COMPLETED);
                     }
                     break;

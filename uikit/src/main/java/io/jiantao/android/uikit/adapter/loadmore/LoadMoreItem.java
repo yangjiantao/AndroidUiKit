@@ -1,4 +1,4 @@
-package io.jiantao.android.uikit.adapter;
+package io.jiantao.android.uikit.adapter.loadmore;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;

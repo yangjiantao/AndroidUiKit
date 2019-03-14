@@ -1,7 +1,9 @@
-package io.jiantao.android.uikit.adapter;
+package io.jiantao.android.uikit.adapter.loadmore;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import me.drakeet.multitype.ItemViewBinder;
  */
 
 class LoadMoreItemViewBinder extends ItemViewBinder<LoadMoreItem, LoadMoreItemViewBinder.ViewHolder> {
+    private static final String TAG = LoadMoreItemViewBinder.class.getSimpleName();
 
     private OnLoadMoreRetryListener mRetryListener;
 
@@ -32,6 +35,13 @@ class LoadMoreItemViewBinder extends ItemViewBinder<LoadMoreItem, LoadMoreItemVi
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull LoadMoreItem item) {
+        final ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+        if (layoutParams == null) {
+            Log.e(TAG, " onBindViewHolder layoutParams is a null object , Call setLayoutManager with a non-null argument.");
+        }
+        if (layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
+            ((StaggeredGridLayoutManager.LayoutParams) layoutParams).setFullSpan(true);
+        }
         holder.data = item;
         holder.updateView(item.getState());
     }

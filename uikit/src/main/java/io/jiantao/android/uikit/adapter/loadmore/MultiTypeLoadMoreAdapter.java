@@ -1,22 +1,20 @@
-package io.jiantao.android.uikit.adapter;
+package io.jiantao.android.uikit.adapter.loadmore;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
-import android.view.ViewGroup;
-
-import java.util.Collections;
-import java.util.List;
-
 import io.jiantao.android.uikit.R;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 import me.drakeet.multitype.MultiTypePool;
 import me.drakeet.multitype.TypePool;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
+ * 设计目标：1. 便于扩展loadMoreItemView 2. 代码易读、简洁 3. 满足设计模式原则
  * 分页加载Adapter
  * @author jiantao
  */
@@ -115,7 +113,7 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         loadMoreDelegate.attach(recyclerView);
         final RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         if (layoutManager == null) {
@@ -134,19 +132,6 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
         }
     }
 
-    @Override
-    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
-        final ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
-        if (layoutParams == null) {
-            Log.e(TAG, " onViewAttacedToWindow layoutParams is a null object , Call setLayoutManager with a non-null argument.");
-            return;
-        }
-        if (layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
-            ((StaggeredGridLayoutManager.LayoutParams) layoutParams).setFullSpan(holder.getItemViewType() == LOAD_MORE_ITEM_TYPE);
-        }
-    }
-
     public void setLoadMoreSubject(LoadMoreDelegate.LoadMoreSubject loadMoreSubject) {
         this.loadMoreSubject = loadMoreSubject;
     }
@@ -158,7 +143,7 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
 
     @Override
     public void onLoadMore() {
-        if (loadMoreSubject != null) {
+        if (loadMoreSubject != null && loadMoreItem.getState() != LoadMoreItem.STATE_COMPLETED) {
             loadMoreSubject.onLoadMore();
         }
     }

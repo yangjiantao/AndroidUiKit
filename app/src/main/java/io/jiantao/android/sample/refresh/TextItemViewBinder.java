@@ -13,6 +13,7 @@ import me.drakeet.multitype.ItemViewBinder;
 
 public class TextItemViewBinder extends ItemViewBinder<TextItem, TextItemViewBinder.TextHolder> {
 
+
     static class TextHolder extends RecyclerView.ViewHolder {
 
         private
@@ -34,8 +35,15 @@ public class TextItemViewBinder extends ItemViewBinder<TextItem, TextItemViewBin
 
     @Override
     protected void onBindViewHolder(@NonNull TextHolder holder, @NonNull TextItem textItem) {
-        holder.text.setText("hello: " + textItem.text);
-//        Log.d("demo", "position: " + getPosition(holder));
+        int position = getPosition(holder);
+        Log.d("demo", "position: " + position);
+        boolean b = (position & 1) == 0;
+        int height = b ? 200 : 300;
+        height = (int) (Math.random() * 200 + height);
+        ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+        layoutParams.height = height;
+        holder.itemView.setLayoutParams(layoutParams);
+        holder.text.setText("hello: " + textItem.text+"height: "+height);
 //        Log.d("demo", "adapter: " + getAdapter());
     }
 }

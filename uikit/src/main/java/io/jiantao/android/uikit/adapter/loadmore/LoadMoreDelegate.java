@@ -1,4 +1,4 @@
-package io.jiantao.android.uikit.adapter;
+package io.jiantao.android.uikit.adapter.loadmore;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -91,7 +91,7 @@ public class LoadMoreDelegate {
     public interface LoadMoreSubject {
         /**
          * load status
-         * @return ture or false
+         * @return true or false
          */
         boolean isLoading();
 

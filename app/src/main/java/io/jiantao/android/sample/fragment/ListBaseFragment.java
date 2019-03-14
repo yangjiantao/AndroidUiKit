@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.jiantao.android.sample.R;
-import io.jiantao.android.uikit.adapter.LoadMoreDelegate;
+import io.jiantao.android.uikit.adapter.loadmore.LoadMoreDelegate;
 import io.jiantao.android.uikit.refresh.ISwipeRefreshLayout;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;

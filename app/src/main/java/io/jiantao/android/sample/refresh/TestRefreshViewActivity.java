@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.List;
@@ -14,9 +15,7 @@ import java.util.Random;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import io.jiantao.android.sample.R;
 import io.jiantao.android.uikit.adapter.loadmore.LoadMoreDelegate;
-import io.jiantao.android.uikit.adapter.loadmore.LoadMoreItem;
 import io.jiantao.android.uikit.adapter.loadmore.MultiTypeLoadMoreAdapter;
-import io.jiantao.android.uikit.adapter.loadmore.OnLoadMoreRetryListener;
 import io.jiantao.android.uikit.refresh.ISwipeRefreshLayout;
 import io.jiantao.android.uikit.widget.IDividerItemDecoration;
 import me.drakeet.multitype.Items;
@@ -63,9 +62,9 @@ public class TestRefreshViewActivity extends Activity {
         adapter.register(TextItem.class, new TextItemViewBinder());
         recyclerView.setAdapter(adapter);
 
-        adapter.setLoadMoreItemRetryListener(new OnLoadMoreRetryListener() {
+        adapter.setLoadMoreItemRetryListener(new MultiTypeLoadMoreAdapter.ILoadMoreRetryListener() {
             @Override
-            public void onRetry() {
+            public void retry() {
                 handler.sendEmptyMessage(2);
             }
         });
@@ -93,8 +92,8 @@ public class TestRefreshViewActivity extends Activity {
     }
 
     private RecyclerView.LayoutManager getLayoutManager() {
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-//        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 3);
+//        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 3);
 //        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         return layoutManager;
     }
@@ -129,7 +128,7 @@ public class TestRefreshViewActivity extends Activity {
 
                 case 2://加载ing
                     isLoading = true;
-                    adapter.setLoadMoreItemState(LoadMoreItem.STATE_LOADING);
+                    adapter.setLoadMoreItemState(MultiTypeLoadMoreAdapter.LoadMoreItem.STATE_LOADING);
                     handler.sendEmptyMessageDelayed(3, 2000);
                     break;
                 case 3:// 加载成功
@@ -137,13 +136,13 @@ public class TestRefreshViewActivity extends Activity {
                     if (succeed) {
                         adapter.appendItems(createItems());
                     }else{
-                        adapter.setLoadMoreItemState(LoadMoreItem.STATE_FAILED);
+                        adapter.setLoadMoreItemState(MultiTypeLoadMoreAdapter.LoadMoreItem.STATE_FAILED);
                     }
                     isLoading = false;
                     if (index < 101) {
                         // do nothing
                     } else {// load completed, no more data
-                        adapter.setLoadMoreItemState(LoadMoreItem.STATE_COMPLETED);
+                        adapter.setLoadMoreItemState(MultiTypeLoadMoreAdapter.LoadMoreItem.STATE_NO_MORE_DATA);
                     }
                     break;
                 default:

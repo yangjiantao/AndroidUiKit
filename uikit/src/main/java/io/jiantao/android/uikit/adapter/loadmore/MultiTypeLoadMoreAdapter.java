@@ -1,33 +1,33 @@
 package io.jiantao.android.uikit.adapter.loadmore;
 
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import io.jiantao.android.uikit.R;
-import me.drakeet.multitype.Items;
-import me.drakeet.multitype.MultiTypeAdapter;
-import me.drakeet.multitype.MultiTypePool;
-import me.drakeet.multitype.TypePool;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import me.drakeet.multitype.*;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * 设计目标：1. 便于扩展loadMoreItemView 2. 代码易读、简洁 3. 满足设计模式原则
  * 分页加载Adapter
+ *
  * @author jiantao
  */
 
 public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMoreDelegate.LoadMoreSubject {
     private static final String TAG = MultiTypeLoadMoreAdapter.class.getSimpleName();
-    /**
-     * loadmore view类型值，对应Adapter中getitemviewtype，由于初始化时首先rigiter了loadmoreitem.class，所以对应type为0.
-     */
-    final int LOAD_MORE_ITEM_TYPE = 0;
-
     final LoadMoreItem loadMoreItem;
-    final LoadMoreItemViewBinder loadMoreItemViewBinder;
+    final AbstractItemViewBinder loadMoreItemViewBinder;
     final LoadMoreDelegate loadMoreDelegate;
     private LoadMoreDelegate.LoadMoreSubject loadMoreSubject;
 
@@ -45,9 +45,9 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
 
     public MultiTypeLoadMoreAdapter(@NonNull List<?> items, @NonNull TypePool pool) {
         super(items, pool);
-        loadMoreItem = new LoadMoreItem(R.string.uikit_loadmore_default_tips);
+        loadMoreItem = new LoadMoreItem();
         loadMoreDelegate = new LoadMoreDelegate(this);
-        loadMoreItemViewBinder = new LoadMoreItemViewBinder();
+        loadMoreItemViewBinder = new DefaultLoadMoreItemViewBinder();
         register(LoadMoreItem.class, loadMoreItemViewBinder);
     }
 
@@ -89,27 +89,12 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
     }
 
     public void setLoadMoreItemState(@LoadMoreItem.ItemState int state) {
-        int tips;
-        switch (state) {
-            case LoadMoreItem.STATE_COMPLETED:
-                tips = R.string.uikit_loadmore_complete_tips;
-                break;
-            case LoadMoreItem.STATE_FAILED:
-                tips = R.string.uikit_loadmore_failed_tips;
-                break;
-
-            default:
-                tips = R.string.uikit_loadmore_default_tips;
-                break;
-        }
-
         this.loadMoreItem.setState(state);
-        this.loadMoreItem.setTips(tips);
         notifyItemChanged(getItemCount() - 1);
     }
 
-    public void setLoadMoreItemRetryListener(OnLoadMoreRetryListener listener) {
-        loadMoreItemViewBinder.setRetryListener(listener);
+    public void setLoadMoreItemRetryListener(ILoadMoreRetryListener listener) {
+        loadMoreItemViewBinder.setLoadMoreRetryListener(listener);
     }
 
     @Override
@@ -126,7 +111,8 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
             ((GridLayoutManager) layoutManager).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    return getItemViewType(position) == LOAD_MORE_ITEM_TYPE ? ((GridLayoutManager) layoutManager).getSpanCount() : 1;
+                    Object obj = getItems().get(position);
+                    return obj.getClass().equals(LoadMoreItem.class) ? ((GridLayoutManager) layoutManager).getSpanCount() : 1;
                 }
             });
         }
@@ -143,8 +129,143 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
 
     @Override
     public void onLoadMore() {
-        if (loadMoreSubject != null && loadMoreItem.getState() != LoadMoreItem.STATE_COMPLETED) {
+        if (loadMoreSubject != null && loadMoreItem.getState() != LoadMoreItem.STATE_NO_MORE_DATA) {
             loadMoreSubject.onLoadMore();
         }
+    }
+
+    /**
+     * dataEntity for LoadMoreViewBinder
+     */
+    public static class LoadMoreItem {
+
+        public static final int STATE_LOADING = 0;
+        /**
+         * finish load
+         */
+        public static final int STATE_NO_MORE_DATA = 1;
+        public static final int STATE_FAILED = 2;
+        /**
+         * hide self
+         */
+        public static final int STATE_HIDE = 3;
+
+        @Retention(RetentionPolicy.SOURCE)
+        @IntDef({STATE_NO_MORE_DATA, STATE_FAILED, STATE_HIDE, STATE_LOADING})
+        public @interface ItemState {
+        }
+
+        private int mState = STATE_HIDE;
+
+        @ItemState
+        public int getState() {
+            return mState;
+        }
+
+        public void setState(@ItemState int mState) {
+            this.mState = mState;
+        }
+    }
+
+    static class DefaultLoadMoreItemViewBinder extends AbstractItemViewBinder<DefaultLoadMoreItemViewBinder.DefaultViewHolder> {
+
+        @Override
+        protected DefaultViewHolder createViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+            TextView view = new TextView(inflater.getContext());
+            RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            view.setLayoutParams(params);
+            view.setGravity(Gravity.CENTER);
+            return new DefaultViewHolder(view);
+        }
+
+        class DefaultViewHolder extends ViewHolder {
+
+            public DefaultViewHolder(@NonNull View itemView) {
+                super(itemView);
+            }
+
+            @Override
+            public void setState(int state) {
+                String tips = "state_none";
+                switch (state) {
+                    case LoadMoreItem.STATE_LOADING:
+                        tips = "state loading";
+                        break;
+
+                    case LoadMoreItem.STATE_HIDE:
+                        tips = "state hide";
+                        break;
+                    case LoadMoreItem.STATE_FAILED:
+                        tips = "state failed";
+                        break;
+                    case LoadMoreItem.STATE_NO_MORE_DATA:
+                        tips = "state no more data";
+                        break;
+                    default:
+                        break;
+                }
+                ((TextView) itemView).setText(tips);
+            }
+        }
+    }
+
+    /**
+     * loadMoreViewBinder基类，限制子类实现各种状态。
+     */
+    public static abstract class AbstractItemViewBinder<VH extends ViewHolder> extends ItemViewBinder<LoadMoreItem, VH> {
+
+        private ILoadMoreRetryListener mListener;
+
+        @NonNull
+        @Override
+        protected final VH onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+            VH viewHolder = createViewHolder(inflater, parent);
+            viewHolder.mListener = mListener;
+            return viewHolder;
+        }
+
+        @Override
+        protected final void onBindViewHolder(@NonNull VH holder, @NonNull LoadMoreItem item) {
+            holder.data = item;
+            holder.setState(item.getState());
+        }
+
+        protected abstract VH createViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
+
+        public void setLoadMoreRetryListener(ILoadMoreRetryListener listener) {
+            this.mListener = listener;
+        }
+    }
+
+    /**
+     * loadMore ViewHolder 基类
+     */
+    public static abstract class ViewHolder extends RecyclerView.ViewHolder {
+
+        protected LoadMoreItem data;
+
+        ILoadMoreRetryListener mListener;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null && data != null && data.getState() == LoadMoreItem.STATE_FAILED) {
+                        mListener.retry();
+                    }
+                }
+            });
+        }
+
+        public abstract void setState(@LoadMoreItem.ItemState int state);
+    }
+
+    public interface ILoadMoreRetryListener {
+        /**
+         * try again
+         */
+        void retry();
     }
 }

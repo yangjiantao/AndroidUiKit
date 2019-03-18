@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
 /**
- *
+ * recyclerView 加载更多事件触发逻辑封装
  * @author jiantao
  */
 public class LoadMoreDelegate {

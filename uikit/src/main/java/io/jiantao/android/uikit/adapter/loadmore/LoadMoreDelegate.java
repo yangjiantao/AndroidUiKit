@@ -1,5 +1,6 @@
 package io.jiantao.android.uikit.adapter.loadmore;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,7 +42,7 @@ public class LoadMoreDelegate {
 
 
         @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
             if (dy < 0 || loadMoreSubject == null || loadMoreSubject.isLoading()){
                 return;
             }

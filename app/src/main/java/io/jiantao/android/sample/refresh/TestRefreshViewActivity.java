@@ -9,10 +9,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import io.jiantao.android.sample.R;
 import io.jiantao.android.uikit.adapter.loadmore.LoadMoreDelegate;
 import io.jiantao.android.uikit.adapter.loadmore.MultiTypeLoadMoreAdapter;
@@ -26,8 +27,11 @@ import me.drakeet.multitype.Items;
 
 public class TestRefreshViewActivity extends Activity {
 
+    private static final String TAG = "TestRefreshViewActivity";
     ISwipeRefreshLayout refreshLayout;
     MultiTypeLoadMoreAdapter adapter;
+
+    List<TextItem> items;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,9 +66,11 @@ public class TestRefreshViewActivity extends Activity {
         adapter.register(TextItem.class, new TextItemViewBinder());
         recyclerView.setAdapter(adapter);
 
-        adapter.setLoadMoreItemRetryListener(new MultiTypeLoadMoreAdapter.ILoadMoreRetryListener() {
+        adapter.setLoadMoreRetryListener(new MultiTypeLoadMoreAdapter.ILoadMoreRetryListener() {
             @Override
             public void retry() {
+                Log.d(TAG, "onLoadMore retry listener called.");
+                isLoading = true;
                 handler.sendEmptyMessage(2);
             }
         });
@@ -77,7 +83,8 @@ public class TestRefreshViewActivity extends Activity {
 
             @Override
             public void onLoadMore() {
-                System.out.println(" onloacmore called ");
+                Log.d(TAG, "onLoadMore method called.");
+                isLoading = true;
                 handler.sendEmptyMessage(2);
             }
         });
@@ -85,8 +92,8 @@ public class TestRefreshViewActivity extends Activity {
         /* Mock the data */
 //        TextItem textItem = new TextItem("world");
 
-
-        adapter.setItems(createItems());
+        items = createItems();
+        adapter.setItems(items);
         adapter.notifyDataSetChanged();
 
     }
@@ -101,14 +108,14 @@ public class TestRefreshViewActivity extends Activity {
     boolean isLoading;
     int index = 1;
 
-    private List<?> createItems() {
-        Items items = new Items();
+    private List<TextItem> createItems() {
+        List<TextItem> newData = new ArrayList<>(20);
         for (int i = index; i < index + 20; i++) {
             TextItem textItem = new TextItem("world no." + i);
-            items.add(textItem);
+            newData.add(textItem);
         }
-        index += items.size();
-        return items;
+        index += 20;
+        return newData;
     }
 
     Random random = new Random();
@@ -127,23 +134,25 @@ public class TestRefreshViewActivity extends Activity {
                     break;
 
                 case 2://加载ing
-                    isLoading = true;
-                    adapter.setLoadMoreItemState(MultiTypeLoadMoreAdapter.LoadMoreItem.STATE_LOADING);
-                    handler.sendEmptyMessageDelayed(3, 2000);
+                    handler.sendEmptyMessageDelayed(3, 5000);
                     break;
                 case 3:// 加载成功
                     boolean succeed = random.nextBoolean();
                     if (succeed) {
-                        adapter.appendItems(createItems());
-                    }else{
+                        items.addAll(createItems());
+                        adapter.setItems(items);
+                        adapter.notifyDataSetChanged();
+                        if (items.size() > 100) {
+                            adapter.setLoadMoreItemState(MultiTypeLoadMoreAdapter.LoadMoreItem.STATE_NO_MORE_DATA);
+                            Log.d(TAG, " load success, no more data. itemCount = "+adapter.getItemCount());
+                        }else{
+                            Log.d(TAG, " load success, has more data. itemCount = "+adapter.getItemCount());
+                        }
+                    } else {
                         adapter.setLoadMoreItemState(MultiTypeLoadMoreAdapter.LoadMoreItem.STATE_FAILED);
+                        Log.d(TAG, " load failed.");
                     }
                     isLoading = false;
-                    if (index < 101) {
-                        // do nothing
-                    } else {// load completed, no more data
-                        adapter.setLoadMoreItemState(MultiTypeLoadMoreAdapter.LoadMoreItem.STATE_NO_MORE_DATA);
-                    }
                     break;
                 default:
                     break;

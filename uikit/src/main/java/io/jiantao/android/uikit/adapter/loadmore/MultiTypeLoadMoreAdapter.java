@@ -10,15 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import me.drakeet.multitype.*;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Collections;
 import java.util.List;
 
+import me.drakeet.multitype.ItemViewBinder;
+import me.drakeet.multitype.Items;
+import me.drakeet.multitype.MultiTypeAdapter;
+import me.drakeet.multitype.MultiTypePool;
+import me.drakeet.multitype.TypePool;
+
 /**
- * 设计目标：1. 便于扩展loadMoreItemView 2. 代码易读、简洁 3. 满足设计模式原则
  * 分页加载Adapter
  *
  * @author jiantao
@@ -26,8 +30,8 @@ import java.util.List;
 
 public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMoreDelegate.LoadMoreSubject {
     private static final String TAG = MultiTypeLoadMoreAdapter.class.getSimpleName();
+    private AbstractItemViewBinder loadMoreItemViewBinder;
     final LoadMoreItem loadMoreItem;
-    final AbstractItemViewBinder loadMoreItemViewBinder;
     final LoadMoreDelegate loadMoreDelegate;
     private LoadMoreDelegate.LoadMoreSubject loadMoreSubject;
 
@@ -58,43 +62,29 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
         }
 
         Items tempItems = new Items();
-        checkLoadMoreItem(tempItems);
+        tempItems.add(loadMoreItem);
         //插在loadmore之前
-        final int index = getItemCount() - 1;
-        tempItems.addAll(index < 0 ? 0 : index, items);
+        tempItems.addAll(0, items);
         super.setItems(tempItems);
     }
 
-    private void checkLoadMoreItem(Items tempItems) {
-        //有数据就表示已添加
-        if (getItemCount() <= 0) {
-            tempItems.add(loadMoreItem);
-        }
-    }
-
-    public void appendItems(@NonNull List<?> datas) {
-        if (datas.isEmpty()) {
-            return;
-        }
-
-        Items tempItems = new Items(getItems());
-        checkLoadMoreItem(tempItems);
-        //插在loadmore之前
-        final int index = getItemCount() - 1;
-        tempItems.addAll(index < 0 ? 0 : index, datas);
-        super.setItems(tempItems);
-
-        //刷新列表
-        notifyItemRangeChanged(index, datas.size());
-    }
 
     public void setLoadMoreItemState(@LoadMoreItem.ItemState int state) {
         this.loadMoreItem.setState(state);
         notifyItemChanged(getItemCount() - 1);
     }
 
-    public void setLoadMoreItemRetryListener(ILoadMoreRetryListener listener) {
+    /**
+     * @param listener retry event callback
+     */
+    public void setLoadMoreRetryListener(ILoadMoreRetryListener listener) {
         loadMoreItemViewBinder.setLoadMoreRetryListener(listener);
+    }
+
+    public void setLoadMoreItemViewBinder(@NonNull AbstractItemViewBinder viewBinder) {
+        viewBinder.setLoadMoreRetryListener(loadMoreItemViewBinder.mListener);
+        this.loadMoreItemViewBinder = viewBinder;
+        register(LoadMoreItem.class, viewBinder);
     }
 
     @Override
@@ -129,7 +119,7 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
 
     @Override
     public void onLoadMore() {
-        if (loadMoreSubject != null && loadMoreItem.getState() != LoadMoreItem.STATE_NO_MORE_DATA) {
+        if (loadMoreSubject != null && loadMoreItem.getState() == LoadMoreItem.STATE_LOADING) {
             loadMoreSubject.onLoadMore();
         }
     }
@@ -145,17 +135,13 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
          */
         public static final int STATE_NO_MORE_DATA = 1;
         public static final int STATE_FAILED = 2;
-        /**
-         * hide self
-         */
-        public static final int STATE_HIDE = 3;
 
         @Retention(RetentionPolicy.SOURCE)
-        @IntDef({STATE_NO_MORE_DATA, STATE_FAILED, STATE_HIDE, STATE_LOADING})
+        @IntDef({STATE_NO_MORE_DATA, STATE_FAILED,  STATE_LOADING})
         public @interface ItemState {
         }
 
-        private int mState = STATE_HIDE;
+        private int mState = STATE_LOADING;
 
         @ItemState
         public int getState() {
@@ -192,9 +178,6 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
                         tips = "state loading";
                         break;
 
-                    case LoadMoreItem.STATE_HIDE:
-                        tips = "state hide";
-                        break;
                     case LoadMoreItem.STATE_FAILED:
                         tips = "state failed";
                         break;
@@ -232,7 +215,7 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
 
         protected abstract VH createViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent);
 
-        public void setLoadMoreRetryListener(ILoadMoreRetryListener listener) {
+        void setLoadMoreRetryListener(ILoadMoreRetryListener listener) {
             this.mListener = listener;
         }
     }
@@ -254,6 +237,8 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
                 public void onClick(View v) {
                     if (mListener != null && data != null && data.getState() == LoadMoreItem.STATE_FAILED) {
                         mListener.retry();
+                        data.mState = LoadMoreItem.STATE_LOADING;
+                        setState(data.mState);
                     }
                 }
             });

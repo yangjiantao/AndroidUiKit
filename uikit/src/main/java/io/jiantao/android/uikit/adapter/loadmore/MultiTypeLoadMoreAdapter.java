@@ -58,13 +58,15 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
     @Override
     public void setItems(@NonNull List<?> items) {
         if (items.isEmpty()) {
+            // empty call super
+            super.setItems(items);
             return;
         }
 
-        Items tempItems = new Items();
-        tempItems.add(loadMoreItem);
+        Items tempItems = new Items(items.size() + 1);
         //插在loadmore之前
-        tempItems.addAll(0, items);
+        tempItems.addAll(items);
+        tempItems.add(loadMoreItem);
         super.setItems(tempItems);
     }
 
@@ -135,9 +137,13 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
          */
         public static final int STATE_NO_MORE_DATA = 1;
         public static final int STATE_FAILED = 2;
+        /**
+         * not visible
+         */
+        public static final int STATE_GONE = 3;
 
         @Retention(RetentionPolicy.SOURCE)
-        @IntDef({STATE_NO_MORE_DATA, STATE_FAILED,  STATE_LOADING})
+        @IntDef({STATE_NO_MORE_DATA, STATE_FAILED, STATE_LOADING, STATE_GONE})
         public @interface ItemState {
         }
 
@@ -183,6 +189,9 @@ public class MultiTypeLoadMoreAdapter extends MultiTypeAdapter implements LoadMo
                         break;
                     case LoadMoreItem.STATE_NO_MORE_DATA:
                         tips = "state no more data";
+                        break;
+                    case LoadMoreItem.STATE_GONE:
+                        itemView.setVisibility(View.GONE);
                         break;
                     default:
                         break;

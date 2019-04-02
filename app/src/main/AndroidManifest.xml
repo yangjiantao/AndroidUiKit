@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.jiantao.android.sample">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,7 +23,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".refresh.TestRefreshViewActivity"
+        <activity
+            android:name=".refresh.TestRefreshViewActivity"
             android:label="refresh/TestRefreshViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +32,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".tablayout.SlidingTabActivity"
+        <activity
+            android:name=".refresh.TestRecyclerViewActivity"
+            android:label="refresh/TestRecyclerViewActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="io.jiantao.android.sample.category" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".tablayout.SlidingTabActivity"
             android:label="tablayout/SlidingTabActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,9 +51,9 @@
         </activity>
 
 
-        <activity android:name=".common.SimpleFragmentActivity"
-            android:label="common/simpleFragmentActivity"
-            >
+        <activity
+            android:name=".common.SimpleFragmentActivity"
+            android:label="common/simpleFragmentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -49,9 +61,9 @@
         </activity>
 
         <!--animation-->
-        <activity android:name=".animation.TestAnimationActivity"
-            android:label="animation/TestAnimationActivity"
-            >
+        <activity
+            android:name=".animation.TestAnimationActivity"
+            android:label="animation/TestAnimationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="io.jiantao.android.sample.category" />
@@ -62,23 +74,23 @@
         <!--animation-->
 
         <!--view-->
-        <activity android:name=".photoview.PhotoViewerTestActivity"
-            android:label="view/PhotoViewerTestActivity"
-            >
+        <activity
+            android:name=".photoview.PhotoViewerTestActivity"
+            android:label="view/PhotoViewerTestActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="io.jiantao.android.sample.category"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="io.jiantao.android.sample.category" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.NotificationTestActivity"
-            android:label="view/NotificationTestActivity"
-            >
+        <activity
+            android:name=".view.NotificationTestActivity"
+            android:label="view/NotificationTestActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="io.jiantao.android.sample.category"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="io.jiantao.android.sample.category" />
             </intent-filter>
         </activity>
-       <!--view-->
+        <!--view-->
 
 
         <!--<activity android:name=".refresh.TestRefreshViewActivity"/>-->

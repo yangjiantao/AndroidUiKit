@@ -13,72 +13,69 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".HomeActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".refresh.TestRefreshViewActivity"
             android:label="refresh/TestRefreshViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="io.jiantao.android.sample.category" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".refresh.TestRecyclerViewActivity"
             android:label="refresh/TestRecyclerViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="io.jiantao.android.sample.category" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".tablayout.SlidingTabActivity"
             android:label="tablayout/SlidingTabActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="io.jiantao.android.sample.category" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".common.SimpleFragmentActivity"
             android:label="common/simpleFragmentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
-
         </activity>
 
-        <!--animation-->
+        <!-- animation -->
         <activity
             android:name=".animation.TestAnimationActivity"
             android:label="animation/TestAnimationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="io.jiantao.android.sample.category" />
             </intent-filter>
-
         </activity>
 
-        <!--animation-->
+        <!-- animation -->
 
-        <!--view-->
+
+        <!-- view -->
         <activity
             android:name=".photoview.PhotoViewerTestActivity"
             android:label="view/PhotoViewerTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="io.jiantao.android.sample.category" />
             </intent-filter>
         </activity>
@@ -87,13 +84,24 @@
             android:label="view/NotificationTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="io.jiantao.android.sample.category" />
             </intent-filter>
         </activity>
-        <!--view-->
 
+        <activity
+            android:name=".view.FullscreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="view/FullscreenActivity"
+            android:theme="@style/FullscreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <!--<activity android:name=".refresh.TestRefreshViewActivity"/>-->
+                <category android:name="io.jiantao.android.sample.category" />
+            </intent-filter>
+        </activity>
+        <!-- view -->
+
     </application>
 
 </manifest>

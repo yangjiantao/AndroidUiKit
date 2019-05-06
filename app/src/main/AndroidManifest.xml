@@ -102,6 +102,18 @@
         </activity>
         <!-- view -->
 
+        <!--fragment-->
+        <activity
+            android:name=".fragment.TestFragmentBackstack"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="fragment/TestFragmentBackstack">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="io.jiantao.android.sample.category" />
+            </intent-filter>
+        </activity>
+        <!--fragment-->
+
     </application>
 
 </manifest>

@@ -51,6 +51,8 @@ dependencies {
     implementation rootProject.ext.dependencies["subsampling-scale-image-view"]
     implementation rootProject.ext.dependencies["glide"]
 
+    implementation "com.android.support:design:${versions["androidSupportSdkVersion"]}"
+
 }
 repositories {
     mavenCentral()

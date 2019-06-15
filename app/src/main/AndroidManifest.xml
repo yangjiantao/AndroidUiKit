@@ -106,6 +106,7 @@
         <activity
             android:name=".fragment.TestFragmentBackstack"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustResize"
             android:label="fragment/TestFragmentBackstack">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

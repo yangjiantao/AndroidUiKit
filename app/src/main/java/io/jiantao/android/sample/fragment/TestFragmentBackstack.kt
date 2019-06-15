@@ -15,11 +15,20 @@ class TestFragmentBackstack : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.testfragment_backstack)
-        button.setOnClickListener{
+        button.setOnClickListener {
             replaceFragment("fragmentB")
         }
 
+        bt_showBottomDialog.setOnClickListener {
+            showBottomSheetDialog()
+        }
+
         addFragment("fragmentA")
+    }
+
+    private fun showBottomSheetDialog() {
+        val dialog = CustomBottomSheetDialogFragment.newInstance()
+        dialog.show(supportFragmentManager, "tag")
     }
 
     private fun replaceFragment(label: String) {

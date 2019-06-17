@@ -38,6 +38,9 @@ dependencies {
     testImplementation rootProject.ext.dependencies["junit"]
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+
+    implementation "com.android.support:design:${versions["androidSupportSdkVersion"]}"
+
 }
 repositories {
     mavenCentral()

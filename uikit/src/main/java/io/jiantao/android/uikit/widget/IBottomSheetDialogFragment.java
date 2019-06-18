@@ -147,6 +147,10 @@ public class IBottomSheetDialogFragment extends AppCompatDialogFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         LogUtils.d(TAG, "onActivityCreated");
+        // after Dialog.setContentView , set it's parent backgroundColor transparent
+        if (mView != null && mView.getParent() != null) {
+            ((View) mView.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        }
     }
 
     @Override
@@ -181,7 +185,7 @@ public class IBottomSheetDialogFragment extends AppCompatDialogFragment {
     }
 
     /**
-     * @return 是否重新显示成功。
+     * 显示Fragment并在dismiss是不remove自己，以便再次显示时恢复状态。如果此需求直接调用方法：show()
      */
     public static void showWithRetainInstance(FragmentManager manager, String tag, @NonNull ICreateFragmentListener listener) {
         Fragment fragmentByTag = manager.findFragmentByTag(tag);

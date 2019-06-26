@@ -1,4 +1,4 @@
-package io.jiantao.android.uikit.widget;
+package io.jiantao.android.uikit.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

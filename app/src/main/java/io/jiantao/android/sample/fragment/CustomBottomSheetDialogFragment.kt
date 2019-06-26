@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.jiantao.android.sample.R
-import io.jiantao.android.uikit.widget.IBottomSheetDialogFragment
+import io.jiantao.android.uikit.dialog.IBottomSheetDialogFragment
 
 /**
  * description

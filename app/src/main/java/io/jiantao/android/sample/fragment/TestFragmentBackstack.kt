@@ -3,7 +3,8 @@ package io.jiantao.android.sample.fragment
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import io.jiantao.android.sample.R
-import io.jiantao.android.uikit.widget.IBottomSheetDialogFragment
+import io.jiantao.android.sample.widget.EditTextDialog
+import io.jiantao.android.uikit.dialog.IBottomSheetDialogFragment
 import kotlinx.android.synthetic.main.testfragment_backstack.*
 
 /**
@@ -28,9 +29,11 @@ class TestFragmentBackstack : AppCompatActivity() {
     }
 
     private fun showBottomSheetDialog() {
-        IBottomSheetDialogFragment.showWithRetainInstance(supportFragmentManager, "tag") { CustomBottomSheetDialogFragment.newInstance() }
+//        IBottomSheetDialogFragment.showWithRetainInstance(supportFragmentManager, "tag") { CustomBottomSheetDialogFragment.newInstance() }
 //        val dialog = CustomBottomSheetDialogFragment.newInstance()
 //        dialog.show(supportFragmentManager, "tag")
+        val dialog = EditTextDialog()
+        dialog.show(supportFragmentManager)
     }
 
     private fun replaceFragment(label: String) {

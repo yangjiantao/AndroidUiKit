@@ -103,7 +103,7 @@
 
   ![bottomdialog gif](https://github.com/shaohui10086/BottomDialog/blob/master/preview/bottom_dialog_edit.gif)
 
-- [IBottomSheetDialogFragment]()
+- [IBottomSheetDialogFragment](https://github.com/yangjiantao/AndroidUiKit/blob/master/uikit/src/main/java/io/jiantao/android/uikit/dialog/IBottomSheetDialogFragment.java) 继承至官方组件BottomSheetDialog改造，支持恢复数据。
 
 ### 参考与推荐
 

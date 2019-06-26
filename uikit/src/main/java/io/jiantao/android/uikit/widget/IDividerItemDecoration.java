@@ -16,8 +16,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import io.jiantao.android.uikit.util.DimenUtil;
-
 /**
  * features:
  * 1. 支持divider height 、color 、padding 等熟悉设置
@@ -77,9 +75,9 @@ public class IDividerItemDecoration extends RecyclerView.ItemDecoration {
     public IDividerItemDecoration(Context context, int orientation) {
         mDivider = new GradientDrawable();
         //默认divider 1dp
-        mVerticalDividerHeight = DimenUtil.dp2px(context, 1);
-        mHorizontalDividerWidth = DimenUtil.dp2px(context, 1);
-        mDividerColor = Color.parseColor("lightgrey");
+        mVerticalDividerHeight = dp2px(context, 1);
+        mHorizontalDividerWidth = dp2px(context, 1);
+        mDividerColor = Color.LTGRAY;
         setOrientation(orientation);
     }
 

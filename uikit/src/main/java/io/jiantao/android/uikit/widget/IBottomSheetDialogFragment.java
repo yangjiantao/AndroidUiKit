@@ -21,9 +21,10 @@ import java.lang.ref.WeakReference;
 import io.jiantao.android.uikit.util.LogUtils;
 
 /**
+ * 如果布局中有输入框，不建议使用。
+ *
  * 1. 支持数据恢复
  * 2. 背景透明
- * 3. 固定高度？
  *
  * @author Created by jiantaoyang
  * @date 2019-06-17

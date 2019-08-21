@@ -12,7 +12,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="100dp"
             android:background="@android:color/holo_blue_dark" />
 
         <LinearLayout
@@ -66,5 +66,11 @@
                 android:text="发送"
                 android:textColor="#939393" />
         </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@android:color/holo_blue_dark" />
+
     </LinearLayout>
 </ScrollView>

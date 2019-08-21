@@ -100,14 +100,24 @@
                 <category android:name="io.jiantao.android.sample.category" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".view.TextViewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="view/TextViewActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="io.jiantao.android.sample.category" />
+            </intent-filter>
+        </activity>
         <!-- view -->
 
         <!--fragment-->
         <activity
             android:name=".fragment.TestFragmentBackstack"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustResize"
-            android:label="fragment/TestFragmentBackstack">
+            android:label="fragment/TestFragmentBackstack"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="io.jiantao.android.sample.category" />

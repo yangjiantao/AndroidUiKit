@@ -110,6 +110,16 @@
                 <category android:name="io.jiantao.android.sample.category" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".view.TestViewVisibleActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="view/TestViewVisibleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="io.jiantao.android.sample.category" />
+            </intent-filter>
+        </activity>
         <!-- view -->
 
         <!--fragment-->

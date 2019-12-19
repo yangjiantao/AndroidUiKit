@@ -160,8 +160,5 @@ public class TestRecyclerViewActivity extends Activity {
         items.clear();
         adapter.notifyDataSetChanged();
         handler.sendEmptyMessageDelayed(4, 2000);
-//        items.addAll(createItems());
-//        adapter.setItems(items);
-//        adapter.notifyDataSetChanged();
     }
 }

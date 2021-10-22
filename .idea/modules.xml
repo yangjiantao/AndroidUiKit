@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidUiKit.iml" filepath="$PROJECT_DIR$/AndroidUiKit.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/uikit/uikit.iml" filepath="$PROJECT_DIR$/uikit/uikit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AndroidUiKit.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AndroidUiKit.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/uikit/AndroidUiKit.uikit.iml" filepath="$PROJECT_DIR$/.idea/modules/uikit/AndroidUiKit.uikit.iml" />
     </modules>
   </component>
 </project>

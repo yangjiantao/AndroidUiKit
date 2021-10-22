@@ -1,6 +1,6 @@
 package io.jiantao.android.sample.refresh;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class TextItem {
 

@@ -4,7 +4,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
-import android.support.v4.app.NotificationCompat
+import androidx.core.app.NotificationCompat
 
 /**
  * 通知渠道 一旦被创建，修改方法：1. 通过引导用户到设置中更新。 2. 删除已存在channelid ,但只要创建是只要id相同，会返回之前删除的配置。

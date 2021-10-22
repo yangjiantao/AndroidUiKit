@@ -7,8 +7,8 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.NotificationCompat
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import io.jiantao.android.sample.R
 import io.jiantao.android.uikit.view.NotificationHelper
 import kotlinx.android.synthetic.main.activity_notificationtest_layout.*

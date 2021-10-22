@@ -39,15 +39,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".tablayout.SlidingTabActivity"
-            android:label="tablayout/SlidingTabActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="io.jiantao.android.sample.category" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".common.SimpleFragmentActivity"
             android:label="common/simpleFragmentActivity">
             <intent-filter>
@@ -120,6 +111,17 @@
                 <category android:name="io.jiantao.android.sample.category" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".view.MallAppHomePageActivity"
+            android:label="view/MallAppHomePageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="io.jiantao.android.sample.category" />
+            </intent-filter>
+        </activity>
+
         <!-- view -->
 
         <!--fragment-->

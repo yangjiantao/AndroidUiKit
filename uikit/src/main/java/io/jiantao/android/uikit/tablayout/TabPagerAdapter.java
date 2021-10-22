@@ -2,14 +2,15 @@ package io.jiantao.android.uikit.tablayout;
 
 import android.content.Context;
 import android.os.Parcelable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.PagerAdapter;
 
 /**
  * 在系统FragmentPagerAdapter源码基础上修改。
@@ -17,7 +18,7 @@ import android.view.ViewGroup;
  * feature ：
  * 1. 轻松获取已存在Fragment
  * 2. 自如切换
- *
+ * <p>
  * Created by jiantao on 2017/6/27.
  */
 

@@ -3,13 +3,14 @@ package io.jiantao.android.sample.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build;
-import android.support.v7.widget.AppCompatTextView;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * 兼容vivo api22手机 TextView换行问题

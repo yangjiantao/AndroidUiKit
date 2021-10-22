@@ -1,10 +1,9 @@
 package io.jiantao.android.sample.fragment
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import io.jiantao.android.sample.R
 import io.jiantao.android.sample.widget.EditTextDialog
-import io.jiantao.android.uikit.dialog.IBottomSheetDialogFragment
 import kotlinx.android.synthetic.main.testfragment_backstack.*
 
 /**

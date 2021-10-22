@@ -5,19 +5,17 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import io.jiantao.android.sample.R;
-import io.jiantao.android.uikit.adapter.loadmore.LoadMoreDelegate;
-import io.jiantao.android.uikit.adapter.loadmore.MultiTypeLoadMoreAdapter;
 import io.jiantao.android.uikit.refresh.ISwipeRefreshLayout;
 import io.jiantao.android.uikit.widget.IDividerItemDecoration;
 

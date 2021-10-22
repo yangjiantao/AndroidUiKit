@@ -1,10 +1,10 @@
 package io.jiantao.android.sample.view
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ImageSpan
+import androidx.appcompat.app.AppCompatActivity
 import io.jiantao.android.sample.R
 import kotlinx.android.synthetic.main.activity_main.tv_view
 import kotlinx.android.synthetic.main.activity_test_textview.*

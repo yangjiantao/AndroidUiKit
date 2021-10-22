@@ -3,8 +3,9 @@ package io.jiantao.android.sample.animation;
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import io.jiantao.android.sample.R;
 

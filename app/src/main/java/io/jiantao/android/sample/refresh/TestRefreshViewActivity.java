@@ -5,21 +5,21 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import android.util.Log;
 import io.jiantao.android.sample.R;
 import io.jiantao.android.uikit.adapter.loadmore.LoadMoreDelegate;
 import io.jiantao.android.uikit.adapter.loadmore.MultiTypeLoadMoreAdapter;
 import io.jiantao.android.uikit.refresh.ISwipeRefreshLayout;
 import io.jiantao.android.uikit.widget.IDividerItemDecoration;
-import me.drakeet.multitype.Items;
 
 /**
  * Created by jiantao on 2017/6/15.

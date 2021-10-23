@@ -2,7 +2,9 @@ package io.jiantao.android.sample.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import io.jiantao.android.sample.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import io.jiantao.android.sample.databinding.ViewJustRecyclerviewBinding
+import io.jiantao.android.sample.view.mall.MallAppAdapter
 
 /**
  * 商城类应用首页实现
@@ -15,6 +17,12 @@ class MallAppHomePageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.view_just_recyclerview)
+        val binding = ViewJustRecyclerviewBinding.inflate(layoutInflater)
+        setContentView(binding.recyclerview)
+
+//        binding.recyclerview.apply {  }
+        binding.recyclerview.layoutManager = LinearLayoutManager(this)
+        binding.recyclerview.adapter = MallAppAdapter()
+
     }
 }
